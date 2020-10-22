@@ -26,7 +26,8 @@ while run == "yes":
     
     hour = now.strftime("%H")
     
-    if hour == "15":
+    # The hour needs to be in %H%H format
+    if hour == "04":
         
         print(f"\nIT'S {hour}!!\nIT'S TIME TO GOOOOOOOOOOOOOOOOOOOOOOOOOO")
     
@@ -124,10 +125,11 @@ while run == "yes":
         os.remove('data.csv')
 
         print("\nFinished!")
-        time.sleep(3600)
 
         ezgmail.init()
         ezgmail.send('brandon@dw-collective.com','BinData Updated', 'The bin data was updated! ')
+
+        time.sleep(3600)
         
     else:
         print(f"\nIt's not the right time\n The hour is {hour}")
