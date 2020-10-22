@@ -26,7 +26,7 @@ while run == "yes":
     
     hour = now.strftime("%H")
     
-    if hour == "06":
+    if hour == "15":
         
         print(f"\nIT'S {hour}!!\nIT'S TIME TO GOOOOOOOOOOOOOOOOOOOOOOOOOO")
     

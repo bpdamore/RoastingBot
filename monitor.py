@@ -299,8 +299,10 @@ def rbcco():
                     elif "love you" in email.messages[0].body:
                         sender = email.messages[0].sender
                         ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\n<3 RBCCo")
+                        print("\nSomeone loves me <3")
+                        email.markAsRead()
                     else:
-                        print("Found an email, but it's not relevant")
+                        print("\nFound an email, but it's not relevant")
                         email.markAsRead()
                 
                 if len(summary) > 0:
