@@ -294,11 +294,11 @@ def rbcco():
                         # ezgmail.send("brandon@dw-collective.com","Currently Active","I am on the job!\n\nLove, \n\n<3 RBCCo")
                         #email.reply("I am on the job!\n\nLove, \n\n-RBCCo <3")
                         sender = email.messages[0].sender
-                        ezgmail.send(sender,"Currently Active","I am on the job!\n\nLove, \n\n<3 RBCCo")
+                        ezgmail.send(sender,"Currently Active","I am on the job!\n\nLove, \n- RBCCo <3")
                         email.markAsRead()
                     elif "love you" in email.messages[0].body:
                         sender = email.messages[0].sender
-                        ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\n<3 RBCCo")
+                        ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\nLove, \n- RBCCo <3")
                         print("\nSomeone loves me <3")
                         email.markAsRead()
                     elif "KILL SWITCH" or "AMSTERDAM" in subj:
