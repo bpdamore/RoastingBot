@@ -301,6 +301,11 @@ def rbcco():
                         ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\n<3 RBCCo")
                         print("\nSomeone loves me <3")
                         email.markAsRead()
+                    elif "KILL SWITCH" or "AMSTERDAM" in subj:
+                        monitor = "no"
+                        email.markAsRead()
+                    elif "New text message from 74005" in subj:
+                        print("\nEhhh I'll let my other process deal with this one")
                     else:
                         print("\nFound an email, but it's not relevant")
                         email.markAsRead()

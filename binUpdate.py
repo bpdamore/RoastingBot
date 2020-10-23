@@ -14,6 +14,8 @@ while run == "yes":
     from datetime import datetime
     import pandas as pd
     import ezgmail
+    import re
+    from selenium.webdriver.common.keys import Keys
 
     # from utils import RoastingBot
     from config import *
@@ -74,6 +76,30 @@ while run == "yes":
 
             quesSub = "input[type='submit']"
             fquesSub = browser.find_by_tag(quesSub).click()
+
+        except:
+            pass
+
+        try:
+            if "A message containing a verification code" in browser.html:
+                place = 'input[placeholder="6-digit code"]'
+                ezgmail.init()
+                time.sleep(2)
+                unread = ezgmail.unread()
+                for email in unread:
+                    subj = email.messages[0].subject
+                    if "New text message from 74005" in subj:
+                        num = len(email.messages)
+                        body = email.messages[num-1].body
+                        digitz = re.compile(r'\d+')
+                        code = digitz.search(body)
+                        code = str(code.group())
+                        print(f"\nCopied code {code}!")
+                        email.markAsRead()
+                codeplace = browser.find_by_tag(place)
+                codeplace.fill(code)
+                active_web_element = browser.driver.switch_to.active_element
+                active_web_element.send_keys(Keys.ENTER) 
 
         except:
             pass
