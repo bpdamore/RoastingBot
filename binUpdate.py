@@ -32,7 +32,7 @@ while run == "yes":
         hour = now.strftime("%H")
         
         # The hour needs to be in %H%H format
-        if hour == "04":
+        if hour == "08":
             
             print(f"\nIT'S {hour}!!\nIT'S TIME TO GOOOOOOOOOOOOOOOOOOOOOOOOOO")
         
@@ -142,7 +142,7 @@ while run == "yes":
             
             print("\nAdding to sheet ...")
 
-            if platform == "wind32":
+            if platform == "win32":
                 os.chdir("/Users/brand/Downloads/")
 
             elif platform == "linux":
@@ -166,6 +166,7 @@ while run == "yes":
 
             print("\nFinished!")
 
+            os.chdir("../")
             ezgmail.init()
             ezgmail.send('brandon@dw-collective.com','BinData Updated', 'The bin data was updated! \n\nI did it! Yay! \n\nLove,\n- RBCCo <3')
 
@@ -180,6 +181,6 @@ while run == "yes":
         # If there's an error, send an email with the error, then sleep for an hour. 
         import ezgmail
         import time
-        print(f"\nThere was an error! \n\n{exp}")
-        ezgmail.send('brandon@dw-collective.com', 'binUpdate Error!', f'Whoopsy! Looks like there was an error. \n\n Here it is! \n\n{exp}\n\nLove,\n- RBCCo <3')
+        print(f"\nThere was an error! \n\n{type(exp).__name__}\n{exp}")
+        ezgmail.send('brandon@dw-collective.com', 'binUpdate Error!', f'Whoopsy! Looks like there was an error. \n\n Here it is! \n\n{type(exp).__name__}\n{str(exp)}\n\nLove,\n- RBCCo <3')
         time.sleep(3600)

@@ -1,7 +1,6 @@
 
 def rbcco():
     #!/usr/bin/python3.7
-
     # Import dependencies
     import os
     import PyPDF2
@@ -11,17 +10,22 @@ def rbcco():
     import shutil
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
+    from sys import platform
 
     # Import G-sheet stuff
     import gspread
     from  oauth2client.service_account import ServiceAccountCredentials
 
     # Create function to check if the po has already been processed
-    def poMatch(skip, cols):
-        for po in cols:
-            if po != "" and po in att:
-                skip = "y"
-            else: pass
+    def poMatch(skip, cols, att):
+        if len(att) == 0:
+            skip="y"
+        else:
+            for po in cols:
+                if str(po) != "" and str(po) in att[0]:
+                    skip = "y"
+                else: pass
+            
         return skip
 
     # Process Turnip Orders
@@ -89,7 +93,7 @@ def rbcco():
         creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
         client = gspread.authorize(creds)
 
-        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('Grocery')
+        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
         data = sheet.get_all_records()
         g = int(len(data))
 
@@ -137,14 +141,17 @@ def rbcco():
         }
 
         for f in os.listdir(path):
+            print("\nWF - Looking at orders")
             if ".pdf" in f:
                 pass
             elif ".html" in f:
                 with open (f, "r") as ord:
                     soup = Soup(ord, "html.parser")
                 # Find the po number in the h1 tag
+                print(f"\nOpening {f}")
                 head = soup.find("h1")
                 head = head.text
+                print("\nExtracting PO")
                 # Actually get the number out
                 poSearch = re.compile(r'\d+')
                 po = poSearch.search(head)
@@ -153,18 +160,20 @@ def rbcco():
                 # Use the po to match a store - this is easier than digging through the html
                 for sub in wf:
                     if po in sub:
+                        print("\nSearching for store")
                         storeSearch = re.compile(r'(Store:)([a-z A-Z]+)')
                         store = storeSearch.search(sub)
                         store = store.group(2)
                         # print(store)
                         # print(sub)
 
-                orders[po+"|"+store]={}
+                orders[po+"|WF - "+store]={}
                 tables = soup.findAll("table")
                 ordTable = tables[6]
                 trs = ordTable.findAll("tr")
                 trs = trs[1:-2]
                 # print(len(trs))
+                print("\nFinding table of orders")
                 for tr in trs:
                     tds = tr.findAll("td")
                     sku = tds[1].text
@@ -173,6 +182,7 @@ def rbcco():
                     else: 
                         sku = skuMatch[sku]
                     qty = tds[2].text
+                    print("\nFinding Qty")
                     numSearch = re.compile(r'\d+')
                     qty = numSearch.search(qty)
                     qty = qty.group()
@@ -186,7 +196,7 @@ def rbcco():
         creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
         client = gspread.authorize(creds)
 
-        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('Grocery')
+        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
         data = sheet.get_all_records()
         g = int(len(data))
 
@@ -213,6 +223,100 @@ def rbcco():
         for x in ordRows:
             sheet.insert_row(x, g+2)
             g+=1
+
+    def unfiOrders():
+        pname = "unfi"
+        os.chdir(pname)
+
+        # Define regex search for UNFI
+        CUBsearch = re.compile(r'(\d+)( +)(CUB12OZWB)')
+        HTBsearch = re.compile(r'(\d+)( +)(HTB12OZWB)')
+        EDIsearch = re.compile(r'(\d+)( +)(EDI12OZWB)')
+        CDCsearch = re.compile(r'(\d+)( +)(CDC12OZWB)')
+        poSearch = re.compile(r'(PO Number:)( +)(\d+)')
+
+        ords = {}
+        for f in os.listdir():
+            print(f"\nReading {f}")
+            pdfFileObj = open(f, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            pageObj = pdfReader.getPage(1)
+            ord1 = pageObj.extractText()
+
+            print("\nfinding line items")
+
+            po = poSearch.search(ord1)
+            try:
+                ords["UNFI|"+po.group(3)] = {}
+            except:
+                pass
+            
+            CUB = CUBsearch.search(ord1)
+            try:
+                ords["UNFI|"+po.group(3)]["Chin Up Retail"] = int(CUB.group(1))
+            except:
+                pass
+            
+            HTB = HTBsearch.search(ord1)
+            try:
+                ords["UNFI|"+po.group(3)]["Hang Tough Retail"] = int(HTB.group(1))
+            except:
+                pass
+
+            EDI = EDIsearch.search(ord1)
+            try:
+                ords["UNFI|"+po.group(3)]["Decaf Retail"] = int(EDI.group(1))
+            except:
+                pass
+
+            CDC = CDCsearch.search(ord1)
+            try:
+                ords["UNFI|"+po.group(3)]["Decaf Retail"] = int(CDC.group(1))
+            except:
+                pass
+            
+            print(ords)
+            pdfFileObj.close()
+            os.remove(f)
+
+        os.chdir("../")
+        # Get that G-Sheet query up and running
+        scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+        creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+        client = gspread.authorize(creds)
+
+        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
+        data = sheet.get_all_records()
+        g = int(len(data))
+
+        ordRows = []
+        for order in ords:
+            p,l = order.split("|")
+            ordRow = ["","","",today,l,p]
+            count = 0
+            for col in data[g-1]:
+                if count<6:
+                    pass
+                else:
+                    match = 0
+                    if "6oz" in col:
+                        pass
+                    else:
+                        for item in ords[order]:
+                            if item.lower() in col.lower():
+                                ordRow.append(ords[order][item])
+                                match = 1
+                            else: pass
+                        if match == 0:
+                            ordRow.append("")
+                count+=1
+            ordRows.append(ordRow)
+
+        for x in ordRows:
+            print(x)
+            sheet.insert_row(x, g+2)
+            g+=1
+
 
     monitor = "yes"
     while monitor == "yes":
@@ -243,9 +347,12 @@ def rbcco():
                 client = gspread.authorize(creds)
 
                 # Get list of POs already in the sheet
-                sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('Grocery')
+                sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
                 col = sheet.col_values(5)
 
+                # for x in col:
+                #     print(x)
+                
                 # We need a list to hold the subj of emails with no attachments
                 errors = []
                 summary = []
@@ -255,13 +362,16 @@ def rbcco():
                     skip = "n"
                     subj = email.messages[0].subject
                     att = email.messages[0].attachments
+                    sender = email.messages[0].sender
+                    body = email.messages[0].body
 
                     if "Whole Foods Market Order" in subj:
                         if subj in currents:
                             email.markAsRead()
                         else: 
                             currents.append(subj)
-                            skip = poMatch(skip,col)
+                            skip = poMatch(skip,col,att)
+                            print(skip)
                             if skip == "y":
                                 email.markAsRead()
                             elif len(att) == 0:
@@ -269,43 +379,75 @@ def rbcco():
                                 email.markAsRead()
                             else:
                                 wf.append(subj)
+                                print("WF")
                                 print(subj)
                                 summary.append(subj)
                                 email.messages[0].downloadAllAttachments(downloadFolder='orders')
                                 email.markAsRead()
 
-                    elif "Turnip Truck" and "PO" in subj:
+                    elif "unfi.com" in body:
+                        # print("Woah a unfi order!")
+                        # email.markAsRead()
                         if subj in currents:
                             email.markAsRead()
                         else:
                             currents.append(subj)
-                            skip = poMatch(skip,col)
+                            skip = poMatch(skip, col, att)
+                            if skip == "y":
+                                email.markAsRead()
+                            elif len(att) == 0:
+                                errors.append(subj)
+                                email.markAsRead()
+                            else: 
+                                print("UNFI")
+                                print(subj)
+                                summary.append(subj)
+                                email.messages[0].downloadAllAttachments(downloadFolder='unfi')
+                                email.markAsRead()
+
+                    elif "Turnip Truck" and "PO" in subj:
+                        # print("Tuurrrnip")
+                        if subj in currents:
+                            email.markAsRead()
+                        else:
+                            currents.append(subj)
+                            skip = poMatch(skip,col,att)
                             if skip == "y":
                                 email.markAsRead()
                             elif len(att) == 0:
                                 errors.append(subj)
                                 email.markAsRead()
                             else:
+                                print("TURNIP")
                                 print(subj)
                                 summary.append(subj)
                                 email.messages[0].downloadAllAttachments(downloadFolder='orders')
                                 email.markAsRead()
+
                     elif "Status Report" in subj:
                         # ezgmail.send("brandon@dw-collective.com","Currently Active","I am on the job!\n\nLove, \n\n<3 RBCCo")
                         #email.reply("I am on the job!\n\nLove, \n\n-RBCCo <3")
-                        sender = email.messages[0].sender
                         ezgmail.send(sender,"Currently Active","I am on the job!\n\nLove, \n- RBCCo <3")
                         email.markAsRead()
+
                     elif "love you" in email.messages[0].body:
                         sender = email.messages[0].sender
                         ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\nLove, \n- RBCCo <3")
                         print("\nSomeone loves me <3")
                         email.markAsRead()
+
                     elif "KILL SWITCH" or "AMSTERDAM" in subj:
+                        print("\nReceived orders to stop looking for orders")
                         monitor = "no"
                         email.markAsRead()
+                        ezgmail.send('brandon@dw-collective.com','Shutting Down','uwu I am shutting down now. \n\nSee you later! \n\nLove,\n- RBCCo <3')
+                        if platform == "linux":
+                            from subprocess import call
+                            call("sudo nohup shutdown -h now", shell=True)
+                            
                     elif "New text message from 74005" in subj:
                         print("\nEhhh I'll let my other process deal with this one")
+
                     else:
                         print("\nFound an email, but it's not relevant")
                         email.markAsRead()
@@ -317,23 +459,27 @@ def rbcco():
                     else:
                         for err in errors:
                             noposts+=f"\n\n{err}"
-                        # ezgmail.send("brandon@dw-collective.com","Grocery Error",f"These orders don't have attachments{noposts}")
-                        ezgmail.send("roasteryorders@gmail.com","Grocery Error",f"These orders weren't processed. {noposts}")
+                        ezgmail.send("brandon@dw-collective.com","Grocery Error",f"These orders don't have attachments{noposts}")
+                        # ezgmail.send("roasteryorders@gmail.com","Grocery Error",f"These orders weren't processed. {noposts}")
 
                     posts = ""
                     for post in summary:
                         posts += f"\n\n{post}"
 
                     print("\n Processing Orders ...")
-                    wfOrder()
 
+                    print("\nWF")
+                    wfOrder()
+                    print("\nTurnip")
                     turnipOrder()
+                    print("\nunfi")
+                    unfiOrders()
+
                     print("\n Adding to google sheet ...")
-                    # ezgmail.send("brandon@dw-collective.com","Grocery Report",f"UwU I put some orders in the GroceryTest tab. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
-                    ezgmail.send("roasteryorders@stay-golden.com","Grocery Report",f"UwU I put some orders in the Grocery tab. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
+                    ezgmail.send("brandon@dw-collective.com","Grocery Report",f"UwU I put some orders in the GroceryTest tab. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
+                    # ezgmail.send("roasteryorders@stay-golden.com","Grocery Report",f"UwU I put some orders in the Grocery tab. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
 
                     print("\n Finished! \n\n")
-
                     time.sleep(60)
                 
         except Exception as err:
