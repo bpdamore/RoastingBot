@@ -329,9 +329,11 @@ def rbcco():
             today = f'{month}/{day}'
 
             # Initialize connection to RoastingBot
+            # print("\n Starting up! ")
             ezgmail.init()
             time.sleep(5)
 
+            print("\n Checking emails")
             # Grab all the unread emails
             unread = ezgmail.unread()
             # Skip if there aren't any
@@ -340,6 +342,7 @@ def rbcco():
                 time.sleep(60)
                 pass
             else:
+                print("\n Oh! An email!")
                 wf = []
                 # Get that G-Sheet query up and running
                 scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
@@ -349,23 +352,26 @@ def rbcco():
                 # Get list of POs already in the sheet
                 sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
                 col = sheet.col_values(5)
-
-                # for x in col:
-                #     print(x)
                 
                 # We need a list to hold the subj of emails with no attachments
                 errors = []
                 summary = []
                 currents = []
-
+                
+                print("\n Searching through emails")
                 for email in unread:
                     skip = "n"
                     subj = email.messages[0].subject
+                    print(subj)
                     att = email.messages[0].attachments
+                    print(att)
                     sender = email.messages[0].sender
+                    print(sender)
                     body = email.messages[0].body
+                    print(body)
 
                     if "Whole Foods Market Order" in subj:
+                        print("A Whole Foods Email!")
                         if subj in currents:
                             email.markAsRead()
                         else: 
@@ -385,8 +391,8 @@ def rbcco():
                                 email.messages[0].downloadAllAttachments(downloadFolder='orders')
                                 email.markAsRead()
 
-                    elif "unfi.com" in body:
-                        # print("Woah a unfi order!")
+                    elif body and "unfi.com" in body:
+                        print("Woah a unfi order!")
                         # email.markAsRead()
                         if subj in currents:
                             email.markAsRead()
@@ -406,7 +412,7 @@ def rbcco():
                                 email.markAsRead()
 
                     elif "Turnip Truck" and "PO" in subj:
-                        # print("Tuurrrnip")
+                        print("Tuurrrnip")
                         if subj in currents:
                             email.markAsRead()
                         else:
