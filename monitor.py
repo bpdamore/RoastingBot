@@ -137,7 +137,8 @@ def rbcco():
             "HTB6OZFP":"Hang Tough 6oz",
             "TBB6OZFP":"1200 Broadway 6oz",
             "CDC12OZWB":"Decaf Retail",
-            "TBB12OZWB":"1200 Broadway Retail"
+            "TBB12OZWB":"1200 Broadway Retail",
+            "DTH12OZWB":"Deck The Halls Retail"
         }
 
         for f in os.listdir(path):
@@ -442,14 +443,14 @@ def rbcco():
                         print("\nSomeone loves me <3")
                         email.markAsRead()
 
-                    elif "KILL SWITCH" or "AMSTERDAM" in subj:
-                        print("\nReceived orders to stop looking for orders")
-                        monitor = "no"
-                        email.markAsRead()
-                        ezgmail.send('brandon@dw-collective.com','Shutting Down','uwu I am shutting down now. \n\nSee you later! \n\nLove,\n- RBCCo <3')
-                        if platform == "linux":
-                            from subprocess import call
-                            call("sudo nohup shutdown -h now", shell=True)
+                    # elif "KILL SWITCH" or "AMSTERDAM" in subj:
+                    #     print("\nReceived orders to stop looking for orders")
+                    #     monitor = "no"
+                    #     email.markAsRead()
+                    #     ezgmail.send('brandon@dw-collective.com','Shutting Down','uwu I am shutting down now. \n\nSee you later! \n\nLove,\n- RBCCo <3')
+                    #     if platform == "linux":
+                    #         from subprocess import call
+                    #         call("sudo nohup shutdown -h now", shell=True)
                             
                     elif "New text message from 74005" in subj:
                         print("\nEhhh I'll let my other process deal with this one")
