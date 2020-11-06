@@ -32,7 +32,7 @@ while run == "yes":
         hour = now.strftime("%H")
         
         # The hour needs to be in %H%H format
-        if hour == "09":
+        if hour == "04":
             
             print(f"\nIT'S {hour}!!\nIT'S TIME TO GOOOOOOOOOOOOOOOOOOOOOOOOOO")
         
@@ -156,7 +156,7 @@ while run == "yes":
                 print("\nExporting data.csv to binData folder")
                 time.sleep(2)
 
-                # os.remove(f)
+                os.remove(f)
                 
             os.chdir("../Documents/RBCCo/binData/")
 
