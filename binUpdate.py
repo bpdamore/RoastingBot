@@ -42,7 +42,7 @@ while run == "yes":
                 browser = Browser('chrome', **executable_path, headless=False)
                 
             elif platform =="linux":
-                browser = Browser('firefox', profile=r'/home/pi/.mozilla/firefox/fvofr8sv.default')
+                browser = Browser('firefox', profile=r'/home/pi/.mozilla/firefox/hmwq79bz.default-esr')
 
             # Go directly to the search
             url = "https://685897.app.netsuite.com/app/common/search/searchresults.nl?searchid=954&whence="
