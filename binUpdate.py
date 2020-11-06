@@ -32,7 +32,7 @@ while run == "yes":
         hour = now.strftime("%H")
         
         # The hour needs to be in %H%H format
-        if hour == "04":
+        if hour == "08":
             
             print(f"\nIT'S {hour}!!\nIT'S TIME TO GOOOOOOOOOOOOOOOOOOOOOOOOOO")
         
@@ -42,7 +42,7 @@ while run == "yes":
                 browser = Browser('chrome', **executable_path, headless=False)
                 
             elif platform =="linux":
-                browser = Browser('firefox', profile=r'/home/pi/.mozilla/firefox/yswkhxkr.default')
+                browser = Browser('firefox', profile=r'/home/pi/.mozilla/firefox/fvofr8sv.default')
 
             # Go directly to the search
             url = "https://685897.app.netsuite.com/app/common/search/searchresults.nl?searchid=954&whence="
