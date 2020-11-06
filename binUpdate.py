@@ -140,24 +140,27 @@ while run == "yes":
             # The WMS sheet will always reference the data on this sheet, so it's fine to overwrite it
             sheet = client.open('BinData')
             
-            print("\nAdding to sheet ...")
+            print("\nFinding csv")
 
             if platform == "win32":
                 os.chdir("/Users/brand/Downloads/")
 
             elif platform == "linux":
                 os.chdir("/home/pi/Downloads/")
-                
+
+            print("\nFound file!")  
             for f in os.listdir():
                 df = pd.read_csv(f)
                 sortdf = df.sort_values(['Bin Number'])
                 sortdf.to_csv("../Documents/RBCCo/binData/data.csv")
-
+                print("\nExporting data.csv to binData folder")
                 time.sleep(2)
 
-                os.remove(f)
+                # os.remove(f)
                 
             os.chdir("../Documents/RBCCo/binData/")
+
+            print("\nAdding to sheet ...")
             with open("data.csv", "r", encoding="UTF-8") as bins:
                 content = bins.read()
                 client.import_csv(sheet.id, data=content.encode("UTF-8"))
