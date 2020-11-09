@@ -11,6 +11,7 @@ def rbcco():
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
     from sys import platform
+    from ShopifyClear import cleanShop
 
     # Import G-sheet stuff
     import gspread
@@ -437,8 +438,24 @@ def rbcco():
                         ezgmail.send(sender,"Currently Active","I am on the job!\n\nLove, \n- RBCCo <3")
                         email.markAsRead()
 
+                    elif subj.lower() == "clean your room":
+                        print("Cleaning the sheet!")
+                        email.markAsRead()
+                        cleanShop()
+                        ezgmail.send(sender,"Sheet Has Been Cleaned","I cleaned the sheet all nice and good like! I hope you like it! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send("brandon@dw-collective.com","Someone Cleaned the Sheets",f"Hey!\n {sender} told me to clean the sheet, so I did!\n\nLove, \n\n<3 RBCCo")
+
+                    elif subj.lower() == "go to work":
+                        if platform == "linux":
+                            from subprocess import call
+                            call("python Documents/RBCCo/ShopifyPull.py", shell=True)
+                            ezgmail.send("brandon@dw-collective.com","Started the Pull","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo")
+                        email.MarkAsRead()
+
+
                     elif subj.lower() == "help":
-                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Pull Shopify', I will run pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
+                        print("Someone needs help!")
+                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
                         email.markAsRead()
 
                     # elif "love you" in email.messages[0].body:
