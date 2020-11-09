@@ -437,11 +437,15 @@ def rbcco():
                         ezgmail.send(sender,"Currently Active","I am on the job!\n\nLove, \n- RBCCo <3")
                         email.markAsRead()
 
-                    elif "love you" in email.messages[0].body:
-                        sender = email.messages[0].sender
-                        ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\nLove, \n- RBCCo <3")
-                        print("\nSomeone loves me <3")
+                    elif subj.lower() == "help":
+                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Pull Shopify', I will run pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
                         email.markAsRead()
+
+                    # elif "love you" in email.messages[0].body:
+                    #     sender = email.messages[0].sender
+                    #     ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\nLove, \n- RBCCo <3")
+                    #     print("\nSomeone loves me <3")
+                    #     email.markAsRead()
 
                     # elif "KILL SWITCH" or "AMSTERDAM" in subj:
                     #     print("\nReceived orders to stop looking for orders")

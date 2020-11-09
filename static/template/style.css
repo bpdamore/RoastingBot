@@ -1,0 +1,30 @@
+.twins {
+    height: 9.5em;
+    width: 45%;
+    padding: 1em;
+    margin: 1em;
+    border: 1px solid #494949;
+    float: left;
+  }
+  
+.logo {
+    padding: 2em;
+    margin: 1em;
+    float: center;
+  }
+
+.notes {
+    padding: .5em;
+    font-size: 22px;
+  }
+
+table {
+    font-size: 20px;
+}
+
+@media print {    
+  tr:nth-child(even) td{
+    background-color: #cccccc !important;
+    -webkit-print-color-adjust: exact; 
+  }
+}
