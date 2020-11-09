@@ -448,7 +448,7 @@ def rbcco():
                     elif subj.lower() == "go to work":
                         if platform == "linux":
                             from subprocess import call
-                            call("python ~/Documents/RBCCo/ShopifyPull.py", shell=True)
+                            call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True)
                             ezgmail.send("brandon@dw-collective.com","Started the Pull","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo")
                         email.markAsRead()
 
