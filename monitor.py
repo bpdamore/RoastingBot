@@ -11,7 +11,7 @@ def rbcco():
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
     from sys import platform
-    from ShopifyClear import cleanShop
+    import ShopifyClear
 
     # Import G-sheet stuff
     import gspread
@@ -441,7 +441,7 @@ def rbcco():
                     elif subj.lower() == "clean your room":
                         print("Cleaning the sheet!")
                         email.markAsRead()
-                        cleanShop()
+                        ShopifyClear.cleanShop()
                         ezgmail.send(sender,"Sheet Has Been Cleaned","I cleaned the sheet all nice and good like! I hope you like it! \n\nLove, \n- RBCCo <3")
                         ezgmail.send("brandon@dw-collective.com","Someone Cleaned the Sheets",f"Hey!\n {sender} told me to clean the sheet, so I did!\n\nLove, \n\n<3 RBCCo")
 

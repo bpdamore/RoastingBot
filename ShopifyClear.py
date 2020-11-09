@@ -31,5 +31,5 @@ def cleanShop():
     sheet.values_update('Roast Calculator!I2:I55',params={'valueInputOption':'USER_ENTERED'},body={'values':rcz})
     sheet.values_update('Roast Calculator!K2:K55',params={'valueInputOption':'USER_ENTERED'},body={'values':rcz})
 
-
-cleanShop()
+if __name__ == "__main__":
+    cleanShop()
