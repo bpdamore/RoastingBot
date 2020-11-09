@@ -212,6 +212,6 @@ def ShopPull(mom):
 
     printer(shopOrds, soup)
 
-
-ShopPull("1234")
+if __name__ == "__main__":  
+    ShopPull("1234")
 

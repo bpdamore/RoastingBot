@@ -12,6 +12,7 @@ def rbcco():
     from bs4 import BeautifulSoup as Soup
     from sys import platform
     import ShopifyClear
+    import ShopifyPull
 
     # Import G-sheet stuff
     import gspread
@@ -444,6 +445,16 @@ def rbcco():
                         ShopifyClear.cleanShop()
                         ezgmail.send(sender,"Sheet Has Been Cleaned","I cleaned the sheet all nice and good like! I hope you like it! \n\nLove, \n- RBCCo <3")
                         ezgmail.send("brandon@dw-collective.com","Someone Cleaned the Sheets",f"Hey!\n {sender} told me to clean the sheet, so I did!\n\nLove, \n\n<3 RBCCo")
+
+                    elif "SinglePrint" in subj:
+                        print("Okay let's try to pull one order")
+                        email.markAsRead()
+                        digitz = re.compile(r'\d+')
+                        code = digitz.search(subj)
+                        mom = str(code.group())
+                        ShopifyPull.ShopPull(mom)
+                        # ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send("brandon@dw-collective.com","Pulled and order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments="static/output/current_orders.html")
 
                     elif subj.lower() == "go to work":
                         if platform == "linux":
