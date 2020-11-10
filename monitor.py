@@ -55,7 +55,7 @@ def rbcco():
                 pageObj = pdfReader.getPage(0)
                 ord1 = pageObj.extractText()
                 # Search for Orders
-                ordSearch = re.compile(r'(STAYGOLDEN )(\D+\d+)')
+                ordSearch = re.compile(r'(STAY ?GOLDEN )(\D+\d+)')
                 text = ordSearch.findall(ord1)
                 nameSearch = re.compile(r'(\D+)(\d+)?')
                 # I'm putting the location and po together, but split by | so I can easily break them up later
@@ -110,10 +110,12 @@ def rbcco():
                 else:
                     match = 0
                     if "6oz" in col:
-                        pass
+                        ordRow.append("")
                     else:
                         for item in orders[order]:
+                            print(item)
                             if item.lower() in col.lower():
+                                print(f"\nMatching col found! {item.lower()} -- {col.lower()}")
                                 ordRow.append(orders[order][item])
                                 match = 1
                             else: pass
