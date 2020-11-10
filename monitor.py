@@ -2,12 +2,7 @@
 def rbcco():
     #!/usr/bin/python3.7
     # Import dependencies
-    import os
-    import PyPDF2
-    import re
-    import ezgmail
-    import time
-    import shutil
+    import os,PyPDF2,re,ezgmail,time,shutil
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
     from sys import platform
@@ -322,12 +317,9 @@ def rbcco():
             sheet.insert_row(x, g+2)
             g+=1
 
-
     monitor = "yes"
     while monitor == "yes":
-        
         try:
-
             # Define today's date 
             month = datetime.now().month
             day = datetime.now().day
@@ -373,7 +365,7 @@ def rbcco():
                     sender = email.messages[0].sender
                     print(sender)
                     body = email.messages[0].body
-                    print(body)
+                    # print(body)
 
                     if "Whole Foods Market Order" in subj:
                         print("A Whole Foods Email!")
@@ -465,10 +457,15 @@ def rbcco():
                             ezgmail.send("brandon@dw-collective.com","Started the Pull","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments="static/output/current_orders.html")
                         email.markAsRead()
 
+                    elif subj.lower() == "add sku":
+                        skusearch = re.compile(r'(([a-z A-Z]+):([a-z A-Z]+))+')
+                        sku = skusearch.findall(body)
+                        for result in sku:
+                            print(f"{result[1]} - {result[2].upper()}")
 
                     elif subj.lower() == "help":
                         print("Someone needs help!")
-                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nIf your subject line is 'Add Sku', put the Coffee name shorthand and sku base in your body. \nex: \nEsperanza:CLE\nBuddy Buddy:BBS\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
                         email.markAsRead()
 
                     # elif "love you" in email.messages[0].body:
