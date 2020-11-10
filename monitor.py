@@ -454,7 +454,7 @@ def rbcco():
                         mom = str(code.group())
                         ShopifyPull.ShopPull(mom)
                         # ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3")
-                        ezgmail.send("brandon@dw-collective.com","Pulled and order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments="static/output/current_orders.html")
+                        ezgmail.send("brandon@dw-collective.com","Pulled an order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments="static/output/current_orders.html")
 
                     elif subj.lower() == "go to work":
                         if platform == "linux":
@@ -523,7 +523,7 @@ def rbcco():
                 
         except Exception as err:
             print("\nOh no! There was an error. \n"+str(err)+"\nI'll try again in 5 minutes")
-            ezgmail.send("brandon@dw-collective.com","Grocery Error",f"There was an error. \n\n{str(err)}\n\nWill try again in the next five minutes.\n\nLove, \n- RBCCo <3")
+            ezgmail.send("brandon@dw-collective.com","RoastingBot Error",f"There was an error. \n\n{str(err)}\n\nWill try again in the next five minutes.\n\nLove, \n- RBCCo <3")
             time.sleep(300)
 
 rbcco()
