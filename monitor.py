@@ -462,6 +462,7 @@ def rbcco():
                         sku = skusearch.findall(body)
                         for result in sku:
                             print(f"{result[1]} - {result[2].upper()}")
+                        email.markAsRead()
 
                     elif subj.lower() == "help":
                         print("Someone needs help!")
