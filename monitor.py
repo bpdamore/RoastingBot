@@ -2,7 +2,7 @@
 def rbcco():
     #!/usr/bin/python3.7
     # Import dependencies
-    import os,PyPDF2,re,ezgmail,time,shutil
+    import os,PyPDF2,re,ezgmail,time,shutil,json
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
     from sys import platform
@@ -440,7 +440,7 @@ def rbcco():
                         ezgmail.send(sender,"Sheet Has Been Cleaned","I cleaned the sheet all nice and good like! I hope you like it! \n\nLove, \n- RBCCo <3")
                         ezgmail.send("brandon@dw-collective.com","Someone Cleaned the Sheets",f"Hey!\n {sender} told me to clean the sheet, so I did!\n\nLove, \n\n<3 RBCCo")
 
-                    elif "SinglePrint" in subj:
+                    elif "SinglePull" in subj:
                         print("Okay let's try to pull one order")
                         email.markAsRead()
                         digitz = re.compile(r'\d+')
@@ -449,7 +449,8 @@ def rbcco():
                         ShopifyPull.ShopPull(mom)
                         # ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3")
                         ezgmail.send("brandon@dw-collective.com","Pulled an order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments="static/output/current_orders.html")
-
+                    
+                    # Pull the shopify data by email! 
                     elif subj.lower() == "go to work":
                         if platform == "linux":
                             from subprocess import call
@@ -457,16 +458,29 @@ def rbcco():
                             ezgmail.send("brandon@dw-collective.com","Started the Pull","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments="static/output/current_orders.html")
                         email.markAsRead()
 
+                    # Add some skus by email! 
                     elif subj.lower() == "add sku":
                         skusearch = re.compile(r'(([a-z A-Z]+):([a-z A-Z]+))+')
                         sku = skusearch.findall(body)
-                        for result in sku:
-                            print(f"{result[1]} - {result[2].upper()}")
+                        ebod = "Hey! \n\nI added the following coffees to my database!\n\nThanks for teaching me!\n"
+                        with open("CoffeeSku.json","r") as f:
+                            skulist = json.load(f)
+                        try:
+                            for result in sku:
+                                print(f"Adding {result[1]} - {result[2].upper()} to json")
+                                ebod +=f"\n{result[1]} - {result[2]}"
+                                skulist[result[1]] = result[2].upper().strip()
+                            ezgmail.send(sender,"Skus added!", f"{ebod}\n\nLove, \n\n<3 RBCCo")
+                            ezgmail.send("brandon@dw-collective.com",f"{sender} Added Skus", f"{ebod}\n\nLove, \n\n<3 RBCCo")
+                        except:
+                            ezgmail.send(sender,"Plz Try Again", f"I couldn't read your email. Plz try again. \n\nPlz format your body like below\n\nEsperanza:CLE\nChin Up:CUB\nPalmera:CLP\n\nLove, \n\n<3 RBCCo")
+                            ezgmail.send("brandon@dw-collective.com",f"{sender} Failed at skus", f"lol what a dummy\n\nLove, \n\n<3 RBCCo")                            
+
                         email.markAsRead()
 
                     elif subj.lower() == "help":
                         print("Someone needs help!")
-                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nIf your subject line is 'Add Sku', put the Coffee name shorthand and sku base in your body. \nex: \nEsperanza:CLE\nBuddy Buddy:BBS\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nIf you want me to pull a single order from Shopify, make your subject 'SinglePull XXXX' where the Xs are your order number. \n\nIf your subject line is 'Add Sku', put the Coffee name shorthand and sku base in your body. \nex: \nEsperanza:CLE\nBuddy Buddy:BBS\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
                         email.markAsRead()
 
                     # elif "love you" in email.messages[0].body:
