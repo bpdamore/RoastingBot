@@ -110,7 +110,6 @@ while run == "yes":
                     codeplace.fill(code)
                     active_web_element = browser.driver.switch_to.active_element
                     active_web_element.send_keys(Keys.ENTER) 
-
                     time.sleep(10)
 
             except:

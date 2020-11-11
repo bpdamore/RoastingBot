@@ -8,6 +8,7 @@ def rbcco():
     from sys import platform
     import ShopifyClear
     import ShopifyPull
+    import trade
 
     # Import G-sheet stuff
     import gspread
@@ -440,6 +441,12 @@ def rbcco():
                         ezgmail.send(sender,"Sheet Has Been Cleaned","I cleaned the sheet all nice and good like! I hope you like it! \n\nLove, \n- RBCCo <3")
                         ezgmail.send("brandon@dw-collective.com","Someone Cleaned the Sheets",f"Hey!\n {sender} told me to clean the sheet, so I did!\n\nLove, \n\n<3 RBCCo")
 
+                    elif subj.lower() == "subbywubby":
+                        print("Doing subs!")
+                        email.markAsRead()
+                        trade.TradeScraper(sender)
+                        ezgmail.send("brandon@dw-collective.com","Subs have been activated",f"Hey! \n{sender} told me to get the subs\n\nLove, \n\n<3 RBCCo")
+
                     elif "SinglePull" in subj:
                         print("Okay let's try to pull one order")
                         email.markAsRead()
@@ -480,23 +487,8 @@ def rbcco():
 
                     elif subj.lower() == "help":
                         print("Someone needs help!")
-                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nIf you want me to pull a single order from Shopify, make your subject 'SinglePull XXXX' where the Xs are your order number. \n\nIf your subject line is 'Add Sku', put the Coffee name shorthand and sku base in your body. \nex: \nEsperanza:CLE\nBuddy Buddy:BBS\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. Please be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to the Roastery Orders email.\n\nIf you want me to pull a single order from Shopify, make your subject 'SinglePull XXXX' where the Xs are your order number.\n\nTo pull the Trade data, send me an email with the subject line 'SubbyWubby'. \nUnfortunately I can't send you the print files, but the orders will be in the sheet! \n\nIf your subject line is 'Add Sku', put the Coffee name shorthand and sku base in your body. \nex: \nEsperanza:CLE\nBuddy Buddy:BBS\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
                         email.markAsRead()
-
-                    # elif "love you" in email.messages[0].body:
-                    #     sender = email.messages[0].sender
-                    #     ezgmail.send(sender,"ERROR","I am unable to process love\n\nThis feature may be available in a future software update\n\nLove, \n- RBCCo <3")
-                    #     print("\nSomeone loves me <3")
-                    #     email.markAsRead()
-
-                    # elif "KILL SWITCH" or "AMSTERDAM" in subj:
-                    #     print("\nReceived orders to stop looking for orders")
-                    #     monitor = "no"
-                    #     email.markAsRead()
-                    #     ezgmail.send('brandon@dw-collective.com','Shutting Down','uwu I am shutting down now. \n\nSee you later! \n\nLove,\n- RBCCo <3')
-                    #     if platform == "linux":
-                    #         from subprocess import call
-                    #         call("sudo nohup shutdown -h now", shell=True)
                             
                     elif "New text message from 74005" in subj:
                         print("\nEhhh I'll let my other process deal with this one")
