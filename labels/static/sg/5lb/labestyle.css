@@ -1,0 +1,210 @@
+/* COFFEE SPECIFIC CSS----------------------------- */
+
+#CUBOrigin {
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 18%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+#AOKOrigin {
+	height: 48px;
+	display: inline-block;
+	overflow: hidden;
+	margin-left: 41%;
+	text-align: center;
+	font-family: 'FuturaBook';
+	font-size: 17pt;
+}
+
+#BPBOrigin {
+	height: 48px;
+	display: inline-block;
+	overflow: hidden;
+	margin-left: 42%;
+	text-align: center;
+	font-family: 'FuturaBook';
+	font-size: 17pt;
+}
+
+#CAAOrigin {
+	height: 48px;
+	display: inline-block;
+	overflow: hidden;
+	margin-left: 36%;
+	text-align: center;
+	font-family: 'FuturaBook';
+	font-size: 17pt;
+}
+
+#CRAOrigin {
+	height: 48px;
+	display: inline-block;
+	overflow: hidden;
+	margin-left: 34%;
+	text-align: center;
+	font-family: 'FuturaBook';
+	font-size: 17pt;
+}
+
+#UAEOrigin {
+	height: 48px;
+	display: inline-block;
+	overflow: hidden;
+	margin-left: 20%;
+	text-align: center;
+	font-family: 'FuturaBook';
+	font-size: 17pt;
+}
+
+/* If you want the date a little lower, make the id this one */
+#LowerDate {
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+    padding: 2.22in 0in .6in 0in;
+    margin-top: 40px;
+}
+
+
+
+
+
+
+/* ---------------------------------------------------------- */
+
+.divTableBody {
+    width: 4.8in;
+    height: 7.2in;
+    display: block;
+    letter-spacing: 2px;
+}
+
+#topRowBlank {
+    height: 2.772in;
+}
+
+#coffeeType {
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+#coffeeName {
+    text-align: center;
+    font-family: 'FuturaCondMed';
+    font-size: 57.6px;
+    line-height: 57.6px;
+    height: 57.6px;
+}
+#netWtLBS {
+    text-align: center;
+    float: left;
+    width: 0.42in;
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px 0px 0px 0.24in;
+    padding: 0;
+    font-family: 'FuturaBook';
+    font-size: 13pt;
+    letter-spacing: 0px;
+    border-bottom: 1px solid black;
+    margin-top: 20px;
+    margin-left: 10px;
+    position: absolute;
+}
+
+#coffeeOriginBlank {
+    height: 48px;
+    width: 0.42in;
+    float: none;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px 0.24in 0px 0px;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+
+}
+#netWtKG {
+    text-align: center;
+    float: left;
+    width: 0.42in;
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px 0px 0px 0.24in;
+    padding: 0;
+    font-family: 'FuturaBook';
+    font-size: 13pt;
+    letter-spacing: 0px;
+    margin-top: 20px;
+    margin-left: 10px;
+    position: absolute;
+}
+
+#netWtKGBlank {
+    height: 48px;
+    width: 4.14in;
+    float: right;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+    
+}
+
+.title {			
+    text-align: right;
+    float: left;
+    width: 1.5in;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px 0px 0px 0.3in;
+    padding: 0px 15px 0px 0px;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+    border-right: 1px solid black;
+}
+
+.info {
+    width: 2.7in;
+    float: right;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+.spacer {			
+    text-align: right;
+    float: left;
+    width: 1.5in;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px 0px 0px 0.3in;
+    padding: 0px 15px 0px 0px;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+    color: white;
+    border-right: 1px solid black;
+}
+
+#roastDate {
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+    padding: 2.22in 0in .6in 0in;
+    margin-top: 20px;
+}

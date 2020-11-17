@@ -28,11 +28,26 @@ def cleanShop():
     sheet = client.open('Roast Sheet 2.4.7')
     # Pull col A in the grocery tab
     grocvals = sheet.worksheet('Grocery').col_values(1)
+    # Pull all values from Shopify
+    shopvals = sheet.values_get(range="Shopify!A4:F")['values']
+
     # Clear out all Shopify orders
-    sheet.values_clear('Shopify!A4:F')
+    shopval = []
+    # Save any row that has plz in the F col
+    for x in shopvals:
+        try: 
+            if x[5].lower() == "plz":
+                shopval.append(x)
+        except IndexError:
+            pass
+    # To clear out the rest of the orders, we need the same number of blank rows.
+    while len(shopval) < len(shopvals):
+        shopval.append(['','','','','',''])
+    
+    sheet.values_update('Shopify!A4:F', params={'valueInputOption':'USER_ENTERED'},body={'values':shopval})
 
     # Clear out the Roast Sheet
-    rsz = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]
+    rsz = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]      
     # Clears the Manual Add section, and then the Lbs Roasted section
     sheet.values_update('Roast Sheet!C4:C50',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
     sheet.values_update('Roast Sheet!D4:D50',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
