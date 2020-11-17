@@ -42,10 +42,11 @@ def LabelPrinter(rdate):
                     if row[0][0:6] not in tbOrds:
                         tbOrds[row[0][0:6]] = int(row[4])
                     else: tbOrds[row[0][0:6]] += int(row[4])
-                elif row[0] not in sgOrds:
-                    sgOrds[row[0][0:3]] = int(row[4])
-                else: sgOrds[row[0][0:3]] += int(row[4])
-        elif "2LB" in row[0]:
+                else:
+                    if row[0][0:3] not in sgOrds:
+                        sgOrds[row[0][0:3]] = int(row[4])
+                    else: sgOrds[row[0][0:3]] += int(row[4])
+            elif "2LB" in row[0]:
                 if "RB-" in row[0]:
                     if row[0][0:6] not in rb2lb:
                         rb2lb[row[0][0:6]] = int(row[4])
@@ -54,15 +55,20 @@ def LabelPrinter(rdate):
                     if row[0][0:6] not in tb2lb:
                         tb2lb[row[0][0:6]] = int(row[4])
                     else: tb2lb[row[0][0:6]] += int(row[4])
-                elif row[0] not in sg2lb:
-                    sg2lb[row[0][0:3]] = int(row[4])
-                else: sg2lb[row[0][0:3]] += int(row[4])
+                else:
+                    # print(row[0]+" - "+row[4])
+                    if row[0][0:3] not in sg2lb:
+                        sg2lb[row[0][0:3]] = int(row[4])
+                    else: sg2lb[row[0][0:3]] += int(row[4])
 
+    print(sgOrds)
+    print(sg2lb)
+    
     if len(sgOrds) > 0:
         os.chdir("labels/static/sg/5lb")
         for cof in sgOrds:
             num=1
-            print("\n")
+            # print("\n")
             for f in os.listdir():
                 # print(f)|
                 if cof.lower() in f.lower():
@@ -75,14 +81,14 @@ def LabelPrinter(rdate):
                     while num <= int(sgOrds[cof]):
                         sglabes+=soup
                         sglabes+=pbreak
-                        print(num)
+                        # print(num)
                         num +=1
     
     if len(sg2lb) > 0:
         os.chdir("../2lb/")
         for cof in sg2lb:
             num=1
-            print("\n")
+            # print("\n")
             for f in os.listdir():
                 if cof.lower() in f.lower():
                     with open(f,"r") as infile:
@@ -93,7 +99,7 @@ def LabelPrinter(rdate):
                     while num <= int(sg2lb[cof]):
                         sglabes+=soup
                         sglabes+=pbreak
-                        print(num)
+                        # print(num)
                         num +=1
 
     os.chdir("../../../../")
