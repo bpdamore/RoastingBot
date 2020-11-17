@@ -326,7 +326,7 @@ def rbcco():
             month = datetime.now().month
             day = datetime.now().day
             year = datetime.now().year
-            today = f'{month}/{day}{str(year)[-2:]}'
+            today = f'{month}/{day}/{str(year)[-2:]}'
 
             # Initialize connection to RoastingBot
             # print("\n Starting up! ")
@@ -475,24 +475,26 @@ def rbcco():
                     elif subj.lower() == "go to work":
                         rdateSearch = re.compile(r'(\d\d/\d\d/\d\d)')
 
-                        if platform == "linux":
-                            from subprocess import call
-                            call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True)
-                        time.sleep(20)
-
                         try:
                             rdate = rdateSearch.search(body)
                             rdate = rdate.group(0)
                             print(rdate)
-                        except AttributeError:
-                            print("There was no date, so I am defaulting to today's date")
-                            rdate = today
+
+                            if platform == "linux":
+                                from subprocess import call
+                                call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True)
+                            time.sleep(20)
                             
-                        LabelPrint.LabelPrinter(rdate)
-                        time.sleep(5)
-                        ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
-                        ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
-                        email.markAsRead()
+                            LabelPrint.LabelPrinter(rdate)
+                            time.sleep(5)
+                            ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
+                            ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
+                            email.markAsRead()
+
+                        except AttributeError:
+                            print("There was no date.")
+                            ezgmail.send(sender,"Please Provide Date", "Hi there!\n In order for me to get the labels all formatted I'm going to need a date from you. Please send the email again, but with the date (XX/XX/XX) in the body of your email.\nIf the formatting isn't correct, I won't do it!\n\nLove, \n\n<3 RBCCo" )
+                            email.markAsRead()
 
                     # Add some skus by email! 
                     elif subj.lower() == "add sku":
