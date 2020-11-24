@@ -95,7 +95,7 @@ def TradeScraper(sender):
 
     time.sleep(2)
 
-    ezgmail.send(sender,"Subby CSV","Hiya! \n\nHere's the csv for today's trade batch. \n\nPlz wait for another email. I'm currently waiting for Trade to load their printy files.\n\nLove, \n\n<3 RBCCo",[trade_csv])
+    # ezgmail.send(sender,"Subby CSV","Hiya! \n\nHere's the csv for today's trade batch! Enjoy!\n\nLove, \n\n<3 RBCCo",[trade_csv])
 
     time.sleep(5)
     os.remove(trade_csv)
@@ -103,22 +103,27 @@ def TradeScraper(sender):
     rows = []
     tdate = date.today()
     for x in today:
-        # rows.append(["y",today[x][1], "TRADE - Automated", str(tdate), x, int(today[x][0])])
-        rows.append([today[x][1], "TRADE - Automated", str(tdate), x, int(today[x][0])])
+        rows.append(["y",today[x][1], "TRADE - Automated", str(tdate), x, int(today[x][0])])
+        # rows.append([today[x][1], "TRADE - Automated", str(tdate), x, int(today[x][0])])
 
     scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
     client = gspread.authorize(creds)
 
     ### NEW SHEET ###
-    # sheet = client.open('Roast Sheet 2.4.7')
-    # start = "A"+str(len(sheet.worksheet('Subs').col_values(1))+1)
-    # sheet.values_update('Subs!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+    sheet = client.open('Roast Sheet 2.4.7')
+    start = "A"+str(len(sheet.worksheet('Subs').col_values(1))+1)
+    sheet.values_update('Subs!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+
+    ezgmail.send(sender,"Subbys Are Posted!", "Hey!\nSorry I took a while...I'm done though!!\nI can't send you the print files, but the subs are good to go!\nsowwy :(\n\nLove, \n\n<3 RBCCo"))
     #################
 
-    sheet = client.open('Stay Golden Wholesale Order Form (Responses)')
-    start = "A"+str(len(sheet.worksheet('Subscriptions').col_values(1))+1)
-    sheet.values_update('Subscriptions!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+    # Old Sheeet #####################
+    # sheet = client.open('Roast Sheet 2.4.7')
+    # start = "A"+str(len(sheet.worksheet('Subscriptions').col_values(1))+1)
+    # sheet.values_update('Subscriptions!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+    ##################################
+
 
     # # Wait for the various packing slips to load
     # dl = "no"
