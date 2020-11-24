@@ -15,7 +15,9 @@ def draftOrds():
 
     id_list = []
     for x in query:
-            if "CML_order" in x["tags"]:
+            if "CML_order_instant" in x["tags"]:
+                pass
+            elif "CML_order" in x["tags"]:
                 id_list.append(x["id"])
             else:
                 pass

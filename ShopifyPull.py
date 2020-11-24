@@ -57,11 +57,11 @@ def printer(allOrders, soup, ordr):
         
         tags = '<p class=notes>'
 
-        if allOrders["custags"][ords] !="" and allOrders["custags"][ords] != "None" and allOrders["custags"][ords] != None:
-            tags += f'{allOrders["custags"][ords]}, '
+        # if allOrders["custags"][ords] !="" and allOrders["custags"][ords] != "None" and allOrders["custags"][ords] != None:
+        #     tags += f'{allOrders["custags"][ords]}, '
 
-        if allOrders["ordtags"][ords] !="" and allOrders["ordtags"][ords] != "None" and allOrders["ordtags"][ords] != None:
-            tags += allOrders["ordtags"][ords]
+        # if allOrders["ordtags"][ords] !="" and allOrders["ordtags"][ords] != "None" and allOrders["ordtags"][ords] != None:
+        #     tags += allOrders["ordtags"][ords]
 
         tags +='</p>'
         soup = soup + tags + pbreak

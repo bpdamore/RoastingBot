@@ -10,6 +10,7 @@ def rbcco():
     import ShopifyPull
     import trade
     import LabelPrint
+    import draftBatch
 
     # Import G-sheet stuff
     import gspread
@@ -479,6 +480,10 @@ def rbcco():
                             rdate = rdateSearch.search(body)
                             rdate = rdate.group(0)
                             print(rdate)
+                            
+                            print("Creating full orders from drafts")
+                            draftBatch.draftOrds()
+                            time.sleep(4)
 
                             if platform == "linux":
                                 from subprocess import call
