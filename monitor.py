@@ -415,17 +415,20 @@ def rbcco():
                     elif "Turnip Truck" and "PO" in subj:
                         print("Tuurrrnip")
                         if subj in currents:
+                            print("already processing... ")
                             email.markAsRead()
                         else:
                             currents.append(subj)
                             skip = poMatch(skip,col,att)
                             if skip == "y":
+                                print("already processed... ")
                                 email.markAsRead()
                             elif len(att) == 0:
+                                print("there's no attachment...")
                                 errors.append(subj)
                                 email.markAsRead()
                             else:
-                                print("TURNIP")
+                                print("TURNIP LET'S GO")
                                 print(subj)
                                 summary.append(subj)
                                 email.messages[0].downloadAllAttachments(downloadFolder='orders')
@@ -549,11 +552,11 @@ def rbcco():
 
                     print("\n Processing Orders ...")
 
-                    print("\nWF")
+                    print("\nProcessing WF")
                     wfOrder()
-                    print("\nTurnip")
+                    print("\nProcessing Turnip")
                     turnipOrder()
-                    print("\nunfi")
+                    print("\nProcessing unfi")
                     unfiOrders()
 
                     print("\n Adding to google sheet ...")
