@@ -557,8 +557,8 @@ def rbcco():
                     unfiOrders()
 
                     print("\n Adding to google sheet ...")
-                    ezgmail.send("brandon@dw-collective.com","Grocery Report",f"UwU I put some orders in the GroceryTest tab. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
-                    ezgmail.send("roasteryorders@stay-golden.com","Grocery Report",f"UwU I put some orders in the GroceryTest tab. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
+                    ezgmail.send("brandon@dw-collective.com","Grocery Report",f"UwU I put some orders in the Grocery tab on the NEW sheet. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
+                    ezgmail.send("roasteryorders@stay-golden.com","Grocery Report",f"UwU I put some orders in the Grocery tab on the NEW sheet. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
 
                     print("\n Finished! \n\n")
                     time.sleep(60)
