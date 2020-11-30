@@ -8,6 +8,9 @@ def TradeScraper(sender):
     from selenium.webdriver.common.keys import Keys
     from  oauth2client.service_account import ServiceAccountCredentials
     from config import tuser,tpass
+    import re
+
+    batchnum = re.compile(r'Batch #(\d+) -')
 
     if platform == "win32":
         executable_path = {'executable_path': 'chromedriver.exe'}
@@ -46,11 +49,18 @@ def TradeScraper(sender):
 
     # Download the batch details for the google sheet
     browser.find_by_xpath("/html/body/div[1]/div[4]/div[1]/div/div[2]/div[1]/div/div/div[1]/h3").click()
-    time.sleep(2)
-    ##### TO DO #####
+    time.sleep(5)
+
+    # Get the file name through regex
+    html = browser.html
+    fname = "batch_"
+    batch = str(batchnum.search(html).group(1))
+    fname +=batch
+
+    # Find the file and load into a df
     os.chdir("../../Downloads")
     for f in os.listdir():
-        if "batch_" and ".csv" in f:
+        if fname in f:
             trade_df = pd.read_csv(f)
             trade_csv = f"../../Downloads/{f}"
             # os.remove(trade_csv)
