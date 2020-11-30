@@ -352,7 +352,7 @@ def rbcco():
 
                 # Get list of POs already in the sheet
                 sheet=client.open('Roast Sheet 2.4.7').worksheet('Grocery')
-                col = sheet.col_values(5)
+                col = sheet.col_values(3)
                 
                 # We need a list to hold the subj of emails with no attachments
                 errors = []
