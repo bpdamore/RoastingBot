@@ -53,6 +53,7 @@ def cleanShop():
     sheet.values_update('Roast Sheet!D5:D51',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
     # Clears the Total Blended section
     sheet.values_update('Roast Sheet!C54:C55',params={'valueInputOption':'USER_ENTERED'},body={'values':[[0],[0]]})
+    sheet.values_update('Roast Sheet!D54:D55',params={'valueInputOption':'USER_ENTERED'},body={'values':[[0],[0]]})
 
     # Clear out the Roast Calculator
     rcz = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],['Manual Lbs'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]
