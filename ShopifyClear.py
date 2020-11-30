@@ -49,16 +49,17 @@ def cleanShop():
     # Clear out the Roast Sheet
     rsz = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]      
     # Clears the Manual Add section, and then the Lbs Roasted section
-    sheet.values_update('Roast Sheet!C4:C50',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
-    sheet.values_update('Roast Sheet!D4:D50',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
+    sheet.values_update('Roast Sheet!C5:C51',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
+    sheet.values_update('Roast Sheet!D5:D51',params={'valueInputOption':'USER_ENTERED'},body={'values':rsz})
     # Clears the Total Blended section
-    sheet.values_update('Roast Sheet!C53:C54',params={'valueInputOption':'USER_ENTERED'},body={'values':[[0],[0]]})
+    sheet.values_update('Roast Sheet!C54:C55',params={'valueInputOption':'USER_ENTERED'},body={'values':[[0],[0]]})
 
     # Clear out the Roast Calculator
-    rcz = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],['Manual Lbs'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]
+    rcz = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],['Manual Lbs'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]
+    rcr = [[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],['Roasted On Hand'],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]]
     # Clears the values while also putting the header in there
-    sheet.values_update('Roast Calculator!I2:I55',params={'valueInputOption':'USER_ENTERED'},body={'values':rcz})
-    sheet.values_update('Roast Calculator!K2:K55',params={'valueInputOption':'USER_ENTERED'},body={'values':rcz})
+    sheet.values_update('Roast Calculator!J2:J56',params={'valueInputOption':'USER_ENTERED'},body={'values':rcz})
+    sheet.values_update('Roast Calculator!L2:L56',params={'valueInputOption':'USER_ENTERED'},body={'values':rcr})
 
     # Date the queued grocery rows. 
     x = 4
