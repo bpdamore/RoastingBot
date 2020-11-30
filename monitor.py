@@ -93,14 +93,14 @@ def rbcco():
         creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
         client = gspread.authorize(creds)
 
-        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
+        sheet=client.open('Roast Sheet 2.4.7').worksheet('Grocery')
         data = sheet.get_all_records()
         g = int(len(data))
 
         ordRows = []
         for order in orders:
             p,l = order.split("|")
-            ordRow = ["","","",today,p,l]
+            ordRow = ["y",today,p,l]
             count = 0
             for col in data[g-1]:
                 if count<6:
@@ -199,14 +199,14 @@ def rbcco():
         creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
         client = gspread.authorize(creds)
 
-        sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
+        sheet=client.open('Roast Sheet 2.4.7').worksheet('Grocery')
         data = sheet.get_all_records()
         g = int(len(data))
 
         ordRows = []
         for order in orders:
             p,l = order.split("|")
-            ordRow = ["","","y",today,p,l]
+            ordRow = ["y",today,p,l]
             count = 0
             for col in data[g-1]:
                 if count<6:
@@ -295,7 +295,7 @@ def rbcco():
         ordRows = []
         for order in ords:
             p,l = order.split("|")
-            ordRow = ["","","",today,l,p]
+            ordRow = ["y",today,l,p]
             count = 0
             for col in data[g-1]:
                 if count<6:
@@ -351,7 +351,7 @@ def rbcco():
                 client = gspread.authorize(creds)
 
                 # Get list of POs already in the sheet
-                sheet=client.open('Stay Golden Wholesale Order Form (Responses)').worksheet('GroceryTest')
+                sheet=client.open('Roast Sheet 2.4.7').worksheet('Grocery')
                 col = sheet.col_values(5)
                 
                 # We need a list to hold the subj of emails with no attachments
