@@ -126,7 +126,8 @@ def rbcco():
             print(x)
             sheet.insert_row(x, g+2)
             g+=1
-
+    
+    # Process WF Orders
     def wfOrder():
         pname = "orders"
         path = os.chdir(pname)
@@ -226,7 +227,8 @@ def rbcco():
         for x in ordRows:
             sheet.insert_row(x, g+2)
             g+=1
-
+    
+    # Process UNFI Orders
     def unfiOrders():
         pname = "unfi"
         os.chdir(pname)
@@ -461,7 +463,7 @@ def rbcco():
                         code = digitz.search(subj)
                         mom = str(code.group())
                         ShopifyPull.ShopPull(mom)
-                        ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3",attachments=f"static/output/{mom}.html")
                         ezgmail.send("brandon@dw-collective.com","Pulled an order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{mom}.html")
                         
                     elif "SinglePrint" in subj:
@@ -473,7 +475,6 @@ def rbcco():
                         ShopifyPull.singlePrint(ordr)
                         ezgmail.send(sender,"Printed an order!",f"Hey!\n\nI started the pull for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
                         ezgmail.send("brandon@dw-collective.com",f"{sender} pulled order {ordr}",f"Hey!\n\nI started the pull for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
-
 
                     # Pull the shopify data by email! 
                     elif subj.lower() == "go to work":
@@ -568,7 +569,10 @@ def rbcco():
                 
         except Exception as err:
             print("\nOh no! There was an error. \n"+str(err)+"\nI'll try again in 5 minutes")
-            ezgmail.send("brandon@dw-collective.com","RoastingBot Error",f"There was an error. \n\n{str(err)}\n\nWill try again in the next five minutes.\n\nLove, \n- RBCCo <3")
+            try:
+                ezgmail.send("brandon@dw-collective.com","RoastingBot Error",f"There was an error. \n\n{str(err)}\n\nWill try again in the next five minutes.\n\nLove, \n- RBCCo <3")
+            except:
+                print("\n\nI won't tell Brandon about the error...it's fine...")
             time.sleep(300)
 
 rbcco()
