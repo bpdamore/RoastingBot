@@ -62,19 +62,50 @@ def cleanShop():
     sheet.values_update('Roast Calculator!J2:J56',params={'valueInputOption':'USER_ENTERED'},body={'values':rcz})
     sheet.values_update('Roast Calculator!L2:L56',params={'valueInputOption':'USER_ENTERED'},body={'values':rcr})
 
-    # Date the queued grocery rows. 
-    x = 4
-    # Iterate through col A, if there's a y, put today's date in
-    while x < len(grocvals):
-        if grocvals[x] == 'y':
-            grocvals[x] = td
-        x+=1
-    # Now make a list of lists so we can throw it into the sheet. 
-    grocval = []
-    for x in grocvals:
-        grocval.append([x])
+    # Clear out Bagging Sheet
+    # dang this is a lot of rows 
+    bagval1 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
+    [''],[''],[''],[''],['']]
+
+    bagval2 = [[''],[''],[''],[''],[''],[''],[''],[''],['']]
+    bagval3 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],['']]
+
+    sheet.values_update('Bag Sheet!D4:D159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Sheet!F4:F159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Sheet!H4:H159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Sheet!J4:J159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Sheet!L4:L159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Sheet!D164:D172',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval2})
+    sheet.values_update('Bag Sheet!F164:F172',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval2})
+    sheet.values_update('Bag Sheet!F176:F187',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval3})
+
+
+
+    # # GROCERY --- UNCOMMENT IF YOU WANT TO INCLUDE GROCERY
+    # # Date the queued grocery rows. 
+    # x = 4
+    # # Iterate through col A, if there's a y, put today's date in
+    # while x < len(grocvals):
+    #     if grocvals[x] == 'y':
+    #         grocvals[x] = td
+    #     x+=1
+    # # Now make a list of lists so we can throw it into the sheet. 
+    # grocval = []
+    # for x in grocvals:
+    #     grocval.append([x])
     
-    sheet.values_update('Grocery!A:A', params={'valueInputOption':'USER_ENTERED'},body={'values':grocval})
+    # sheet.values_update('Grocery!A:A', params={'valueInputOption':'USER_ENTERED'},body={'values':grocval})
 
 if __name__ == "__main__":
     cleanShop()
+

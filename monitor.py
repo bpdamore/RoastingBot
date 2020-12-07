@@ -11,7 +11,7 @@ def rbcco():
     import trade
     import LabelPrint
     import draftBatch
-
+    from shopify import expediteMe
     # Import G-sheet stuff
     import gspread
     from  oauth2client.service_account import ServiceAccountCredentials
@@ -25,7 +25,6 @@ def rbcco():
                 if str(po) != "" and str(po) in att[0]:
                     skip = "y"
                 else: pass
-            
         return skip
 
     # Process Turnip Orders
@@ -58,6 +57,14 @@ def rbcco():
                 nameSearch = re.compile(r'(\D+)(\d+)?')
                 # I'm putting the location and po together, but split by | so I can easily break them up later
                 orders[po+"|"+loc]={}
+                # Search for mugs
+                mugsearch = re.compile(r'((MUG)(\d+?))(\$)')
+                mugs = mugsearch.search(ord1)
+                if mugs == None:
+                    pass
+                else:
+                    mugqty = mugs.group(3)
+                    orders[po+'|'+loc]['Holiday Mug']=[mugqty]
                 # Pull out the individual orders from the matched group.
                 for match in text:
                     if "SSNL" not in match[1]:
@@ -100,7 +107,7 @@ def rbcco():
         ordRows = []
         for order in orders:
             p,l = order.split("|")
-            ordRow = ["y",today,p,l]
+            ordRow = ["y","","",today,p,l]
             count = 0
             for col in data[g-1]:
                 if count<4:
@@ -207,7 +214,7 @@ def rbcco():
         ordRows = []
         for order in orders:
             p,l = order.split("|")
-            ordRow = ["y",today,p,l]
+            ordRow = ["y","","",today,p,l]
             count = 0
             for col in data[g-1]:
                 if count<4:
@@ -297,7 +304,7 @@ def rbcco():
         ordRows = []
         for order in ords:
             p,l = order.split("|")
-            ordRow = ["y",today,l,p]
+            ordRow = ["y","","",today,l,p]
             count = 0
             for col in data[g-1]:
                 if count<4:

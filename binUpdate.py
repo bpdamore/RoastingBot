@@ -7,17 +7,12 @@ while run == "yes":
     # Put in a try/except to catch and email error while still running the next day. 
     try:
         # Import dependencies for printing / moving files
-        import os
-        import time
+        import os, time, webbrowser, ezgmail, re
         from bs4 import BeautifulSoup as Soup
-        import webbrowser
-        import time
         from splinter import Browser
         from sys import platform
         from datetime import datetime
         import pandas as pd
-        import ezgmail
-        import re
         from selenium.webdriver.common.keys import Keys
 
         # from utils import the various creds
