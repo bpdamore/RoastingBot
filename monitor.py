@@ -110,7 +110,7 @@ def rbcco():
             ordRow = ["y","","",today,p,l]
             count = 0
             for col in data[g-1]:
-                if count<4:
+                if count<6:
                     pass
                 else:
                     match = 0
@@ -217,7 +217,7 @@ def rbcco():
             ordRow = ["y","","",today,p,l]
             count = 0
             for col in data[g-1]:
-                if count<4:
+                if count<6:
                     pass
                 else:
                     match = 0
@@ -307,7 +307,7 @@ def rbcco():
             ordRow = ["y","","",today,l,p]
             count = 0
             for col in data[g-1]:
-                if count<4:
+                if count<6:
                     pass
                 else:
                     match = 0
