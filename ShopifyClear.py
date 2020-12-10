@@ -80,14 +80,14 @@ def cleanShop():
     bagval2 = [[''],[''],[''],[''],[''],[''],[''],[''],['']]
     bagval3 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],['']]
 
-    sheet.values_update('Bag Sheet!D4:D159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
-    sheet.values_update('Bag Sheet!F4:F159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
-    sheet.values_update('Bag Sheet!H4:H159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
-    sheet.values_update('Bag Sheet!J4:J159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
-    sheet.values_update('Bag Sheet!L4:L159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
-    sheet.values_update('Bag Sheet!D164:D172',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval2})
-    sheet.values_update('Bag Sheet!F164:F172',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval2})
-    sheet.values_update('Bag Sheet!F176:F187',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval3})
+    sheet.values_update('Bag Report!D4:D159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Report!F4:F159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Report!H4:H159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Report!J4:J159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Report!L4:L159',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval1})
+    sheet.values_update('Bag Report!D164:D172',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval2})
+    sheet.values_update('Bag Report!F164:F172',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval2})
+    sheet.values_update('Bag Report!F176:F187',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval3})
 
 
 
