@@ -27,8 +27,8 @@ while run == "yes":
         hour = now.strftime("%H")
         
         # The hour needs to be in %H%H format
-        # if hour == "04":
-        if hour == "09":
+        if hour == "04":
+        # if hour == "09":
             
             # Get that G-Sheet query up and running
             scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
