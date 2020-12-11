@@ -27,8 +27,20 @@ while run == "yes":
         hour = now.strftime("%H")
         
         # The hour needs to be in %H%H format
-        if hour == "04":
+        # if hour == "04":
+        if hour == "09":
             
+            # Get that G-Sheet query up and running
+            scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+            creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+            client = gspread.authorize(creds)
+
+            time.sleep(20)
+                
+            # Completely rewrite the sheet
+            # The WMS sheet will always reference the data on this sheet, so it's fine to overwrite it
+            sheet = client.open('BinData')
+
             print(f"\nIT'S {hour}!!\nIT'S TIME TO GOOOOOOOOOOOOOOOOOOOOOOOOOO")
         
             # Is it running on my work computer or RoastingBot?
@@ -85,7 +97,7 @@ while run == "yes":
 
             # Check for 2 factor authorization
             try:
-                if "A message containing a verification code" in browser.html:
+                if "verification code" in browser.html:
                     place = 'input[placeholder="6-digit code"]'
                     ezgmail.init()
                     time.sleep(2)
@@ -122,17 +134,6 @@ while run == "yes":
             time.sleep(20)
 
             browser.quit()
-
-            # Get that G-Sheet query up and running
-            scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
-            creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
-            client = gspread.authorize(creds)
-
-            time.sleep(20)
-                
-            # Completely rewrite the sheet
-            # The WMS sheet will always reference the data on this sheet, so it's fine to overwrite it
-            sheet = client.open('BinData')
             
             print("\nFinding csv")
 
