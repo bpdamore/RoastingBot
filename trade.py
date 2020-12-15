@@ -108,7 +108,6 @@ def TradeScraper(sender):
     # ezgmail.send(sender,"Subby CSV","Hiya! \n\nHere's the csv for today's trade batch! Enjoy!\n\nLove, \n\n<3 RBCCo",[trade_csv])
 
     time.sleep(5)
-    os.remove(trade_csv)
 
     rows = []
     tdate = date.today()
