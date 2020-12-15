@@ -10,63 +10,64 @@ def TradeScraper(sender):
     from config import tuser,tpass
     import re
 
-    batchnum = re.compile(r'Batch #(\d+) -')
+    #### UNCOMMENT WHEN YOU WANT TO AUTOMATE EVERYTHING ####
+    # batchnum = re.compile(r'Batch #(\d+) -')
 
-    if platform == "win32":
-        executable_path = {'executable_path': 'chromedriver.exe'}
-        browser = Browser('chrome', **executable_path, headless=False)
+    # if platform == "win32":
+    #     executable_path = {'executable_path': 'chromedriver.exe'}
+    #     browser = Browser('chrome', **executable_path, headless=False)
 
-    elif platform == "linux":
-        browser = Browser('firefox', profile=r'/home/pi/.mozilla/firefox/hmwq79bz.default-esr')
+    # elif platform == "linux":
+    #     browser = Browser('firefox', profile=r'/home/pi/.mozilla/firefox/hmwq79bz.default-esr')
 
-    url = "https://beta.roasters.drinktrade.com/"
-    browser.visit(url)
+    # url = "https://beta.roasters.drinktrade.com/"
+    # browser.visit(url)
 
-    time.sleep(3)
+    # time.sleep(3)
 
-    html = browser.html
+    # html = browser.html
 
-    if "Login | Trade" in html:
-        user = "input[id='admin_user_email']"
-        pw = "input[id='admin_user_password']"
-        sub = "input[type='submit']"
-        # Log in
-        truser = browser.find_by_tag(user)
-        truser.fill(tuser)
-        trpw = browser.find_by_tag(pw)
-        trpw.fill(tpass)
-        trsub = browser.find_by_tag(sub).click()
-        time.sleep(4)
+    # if "Login | Trade" in html:
+    #     user = "input[id='admin_user_email']"
+    #     pw = "input[id='admin_user_password']"
+    #     sub = "input[type='submit']"
+    #     # Log in
+    #     truser = browser.find_by_tag(user)
+    #     truser.fill(tuser)
+    #     trpw = browser.find_by_tag(pw)
+    #     trpw.fill(tpass)
+    #     trsub = browser.find_by_tag(sub).click()
+    #     time.sleep(4)
 
-    accept = "button[id='accept-roasts']"
-    taccept = browser.find_by_tag(accept).click()
-    time.sleep(2)
+    # accept = "button[id='accept-roasts']"
+    # taccept = browser.find_by_tag(accept).click()
+    # time.sleep(2)
 
-    browser.find_by_text("OK").click()
-    time.sleep(4)
+    # browser.find_by_text("OK").click()
+    # time.sleep(4)
 
-    # input("Press enter ")
+    # # input("Press enter ")
 
-    # Download the batch details for the google sheet
-    browser.find_by_xpath("/html/body/div[1]/div[4]/div[1]/div/div[2]/div[1]/div/div/div[1]/h3").click()
-    time.sleep(5)
+    # # Download the batch details for the google sheet
+    # browser.find_by_xpath("/html/body/div[1]/div[4]/div[1]/div/div[2]/div[1]/div/div/div[1]/h3").click()
+    # time.sleep(5)
 
-    # Get the file name through regex
-    html = browser.html
-    fname = "batch_"
-    batch = str(batchnum.search(html).group(1))
-    fname +=batch
+    # # Get the file name through regex
+    # html = browser.html
+    # fname = "batch_"
+    # batch = str(batchnum.search(html).group(1))
+    # fname +=batch
+
+    ###################################
 
     # Find the file and load into a df
-    os.chdir("../../Downloads")
+    os.chdir("trade")
     for f in os.listdir():
-        if fname in f:
-            trade_df = pd.read_csv(f)
-            trade_csv = f"../../Downloads/{f}"
-            # os.remove(trade_csv)
-        else: pass
+        trade_df = pd.read_csv(f)
+        trade_csv = f"../trade/{f}"
+        os.remove(trade_csv)
 
-    os.chdir("../Documents/RBCCo")
+    os.chdir("../")
 
     # Get the necessary details out
     trade_df = trade_df[["product_name","grind", "grind_type" ,"quantity"]]
@@ -122,8 +123,9 @@ def TradeScraper(sender):
 
     ### NEW SHEET ###
     sheet = client.open('Roast Sheet 2.4.7')
-    start = "A"+str(len(sheet.worksheet('Subs').col_values(1))+1)
-    sheet.values_update('Subs!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+    # start = "A"+str(len(sheet.worksheet('Subs').col_values(1))+1)
+    start = "A"+str(len(sheet.worksheet('tester').col_values(1))+1)
+    sheet.values_update('tester!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
 
     ezgmail.send(sender,"Subbys Are Posted!", "Hey!\nSorry I took a while...I'm done though!!\nI can't send you the print files, but the subs are good to go!\nsowwy :(\n\nLove, \n\n<3 RBCCo")
     #################

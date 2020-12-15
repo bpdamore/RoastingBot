@@ -459,6 +459,7 @@ def rbcco():
                     elif subj.lower() == "subbywubby":
                         print("Doing subs!")
                         email.markAsRead()
+                        email.messages[0].downloadAllAttachments(downloadFolder='trade')
                         trade.TradeScraper(sender)
                         ezgmail.send("brandon@dw-collective.com","Subs have been activated",f"Hey! \n{sender} told me to get the subs\n\nLove, \n\n<3 RBCCo")
 
@@ -572,7 +573,7 @@ def rbcco():
                     ezgmail.send("roasteryorders@stay-golden.com","Grocery Report",f"UwU I put some orders in the Grocery tab on the NEW sheet. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
 
                     print("\n Finished! \n\n")
-                    time.sleep(60)
+                    time.sleep(180)
                 
         except Exception as err:
             print("\nOh no! There was an error. \n"+str(err)+"\nI'll try again in 5 minutes")
