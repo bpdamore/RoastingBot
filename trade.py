@@ -64,8 +64,7 @@ def TradeScraper(sender):
     os.chdir("trade")
     for f in os.listdir():
         trade_df = pd.read_csv(f)
-        trade_csv = f"../trade/{f}"
-        os.remove(trade_csv)
+        os.remove(f)
 
     os.chdir("../")
 
