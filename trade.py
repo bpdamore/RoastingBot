@@ -121,9 +121,9 @@ def TradeScraper(sender):
 
     ### NEW SHEET ###
     sheet = client.open('Roast Sheet 2.4.7')
-    # start = "A"+str(len(sheet.worksheet('Subs').col_values(1))+1)
-    start = "A"+str(len(sheet.worksheet('tester').col_values(1))+1)
-    sheet.values_update('tester!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+    start = "A"+str(len(sheet.worksheet('Subs').col_values(1))+1)
+    # start = "A"+str(len(sheet.worksheet('tester').col_values(1))+1)
+    sheet.values_update('Subs!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
 
     ezgmail.send(sender,"Subbys Are Posted!", "Hey!\nSorry I took a while...I'm done though!!\nI can't send you the print files, but the subs are good to go!\nsowwy :(\n\nLove, \n\n<3 RBCCo")
     #################
