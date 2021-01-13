@@ -153,7 +153,7 @@ def ShopPull(mom):
         response = response['orders']
 
     else:
-        response = requests.get(f'{query_url}orders.json?status=open&fulfillment_status=unfulfilled&{order_print}').json()
+        response = requests.get(f'{query_url}orders.json?status=open&fulfillment_status=unfulfilled&{order_print}&limit=250').json()
         response = response['orders']
 
     shopOrds = {
