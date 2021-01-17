@@ -8,6 +8,7 @@ def rbcco():
     from sys import platform
     import ShopifyClear
     import ShopifyPull
+    from ShopifyPull import ShopPull
     import trade
     import LabelPrint
     import draftBatch
@@ -500,8 +501,11 @@ def rbcco():
                             if platform == "linux":
                                 from subprocess import call
                                 call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True)
-                            time.sleep(20)
+
+                            elif platform == "win32":
+                                ShopPull("Current_Orders")
                             
+                            time.sleep(20)
                             LabelPrint.LabelPrinter(rdate)
                             time.sleep(5)
                             ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
