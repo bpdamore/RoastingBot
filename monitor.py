@@ -498,6 +498,10 @@ def rbcco():
                             draftBatch.draftOrds()
                             time.sleep(4)
 
+                            from sys import platform
+
+                            print(platform)
+
                             if platform == "linux":
                                 from subprocess import call
                                 call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True)
