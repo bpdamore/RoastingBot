@@ -138,7 +138,7 @@ while run == "yes":
             print("\nFinding csv")
 
             if platform == "win32":
-                os.chdir("/Users/brand/Downloads/")
+                os.chdir("/Users/Administrator/Downloads/")
 
             elif platform == "linux":
                 os.chdir("/home/pi/Downloads/")
