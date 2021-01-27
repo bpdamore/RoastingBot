@@ -139,6 +139,7 @@ def ShopPull(mom):
     from config import key, password, hostname, version, emPass
     from pprint import pprint
 
+    print("\nOpening html template...")
     with open("static/template/order_template.html", "r") as f:
         soup= Soup(f, "html.parser")
         soup = str(soup)
@@ -149,10 +150,12 @@ def ShopPull(mom):
     # Save all open orders into response
 
     if __name__ != "__main__":
+        print("\nname is main")
         response = requests.get(f'{query_url}orders.json?name={mom}&status=open&fulfillment_status=unfulfilled&{order_print}').json()
         response = response['orders']
 
     else:
+        print("\nPulling all orders from Shopify")
         response = requests.get(f'{query_url}orders.json?status=open&fulfillment_status=unfulfilled&{order_print}&limit=250').json()
         response = response['orders']
 
@@ -168,6 +171,7 @@ def ShopPull(mom):
     }
     sheetData = []
     z = 0
+    print(f"\nlength of the orders is {len(response)}")
     for order in response:
         shipping = []
         lines = []
@@ -206,6 +210,7 @@ def ShopPull(mom):
         z+=1
 
     # Build the query
+    print("\nConnecting to Google Sheets")
     scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
     client = gspread.authorize(creds)
@@ -215,6 +220,7 @@ def ShopPull(mom):
     sheet = client.open('Roast Sheet 2.4.7')
     rows = "A"+str(len(sheet.worksheet('Shopify').col_values(1))+1)
     # print(sheetData)
+    print("\nAdding data to Shopify page")
     sheet.values_update('Shopify!'+rows,params={'valueInputOption':'USER_ENTERED'},body={'values':sheetData})
 
     printer(shopOrds, soup, mom)
