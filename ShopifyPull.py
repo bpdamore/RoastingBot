@@ -71,7 +71,7 @@ def printer(allOrders, soup, ordr):
     soup = soup[0:breakremove]
     soup = soup + "</body>"
     print("writing file")
-    with open("static/output/"+ordr+".html", "w") as f:
+    with open("static/output/"+ordr+".html", "w", encoding="utf-8") as f:
         f.write(soup)
     # print("opening")
     # webbrowser.open_new_tab("static/output/current_orders.html")
@@ -151,7 +151,7 @@ def ShopPull(mom):
 
     if __name__ != "__main__":
         print("\nname is main")
-        response = requests.get(f'{query_url}orders.json?name={mom}&status=open&fulfillment_status=unfulfilled&{order_print}').json()
+        response = requests.get(f'{query_url}orders.json?name={mom}&status=open&fulfillment_status=unfulfilled&{order_print}&limit=250').json()
         response = response['orders']
 
     else:
