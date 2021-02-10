@@ -13,7 +13,7 @@ def expediteMe():
     from pprint import pprint
     from datetime import datetime, timedelta
 
-    draftDate = datetime.today() - timedelta(dates=14)
+    draftDate = datetime.today() - timedelta(days=14)
 
     # Load the ids of the orders that have already been checked
     with open("shipcheck.json","r") as f:
