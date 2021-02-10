@@ -149,8 +149,8 @@ def ShopPull(mom):
     order_print = 'fields=name,billing_address,shipping_address,contact_email,created_at,line_items,note,customer,tags'
     # Save all open orders into response
 
-    if __name__ != "__main__":
-        print("\nname is main")
+    if mom != 'Current_Orders':
+        print("\nPulling a single order!")
         response = requests.get(f'{query_url}orders.json?name={mom}&status=open&fulfillment_status=unfulfilled&{order_print}&limit=250').json()
         response = response['orders']
 

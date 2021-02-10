@@ -6,16 +6,16 @@ def rbcco():
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
     from sys import platform
-    import ShopifyClear
-    import ShopifyPull
-    from ShopifyPull import ShopPull
+    from ShopifyPull import ShopPull,singlePrint
     import trade
     import LabelPrint
     import draftBatch
-    from shopify import expediteMe
+    from shopify import expediteMe,cleanShop
     # Import G-sheet stuff
     import gspread
     from  oauth2client.service_account import ServiceAccountCredentials
+
+    counter = 1
 
     # Create function to check if the po has already been processed
     def poMatch(skip, cols, att):
@@ -344,12 +344,27 @@ def rbcco():
             ezgmail.init()
             time.sleep(5)
 
+            # Look for expedited orders that may have come in.
+            if counter % 15 == 0:
+                try:
+                    print('\nChecking for expedited orders real quick...')
+                    expmsg = expediteMe()
+                    if expmsg != 'nothing here':
+                        print('\nHey! Looks like one was placed!')
+                        ezgmail.send('roasteryorders@stay-golden.com','An Expedited Order was Placed!', expmsg)
+                        ezgmail.send('brandon@dw-collective.com','An Expedited Order was Placed!', expmsg)
+                    else: print('\nLooks like there\'s nothing here.')
+                except Exception as err:
+                    print('Expedited script failed for some reason')
+                    ezgmail.send('brandon@dw-collective.com','Expedited script failed',f'Hey there! \n\nThe expedited script failed because of {err}\n\nSorry! \n\nLove, \n\n<3 RBCCo')
+
             print("\n Checking emails")
             # Grab all the unread emails
             unread = ezgmail.unread()
             # Skip if there aren't any
             if len(unread) == 0:
                 print("\n No orders found ... \n\n")
+                counter += 1
                 time.sleep(60)
                 pass
             else:
@@ -453,7 +468,7 @@ def rbcco():
                     elif subj.lower() == "clean your room":
                         print("Cleaning the sheet!")
                         email.markAsRead()
-                        ShopifyClear.cleanShop()
+                        cleanShop()
                         ezgmail.send(sender,"Sheet Has Been Cleaned","I cleaned the sheet all nice and good like! I hope you like it! \n\nLove, \n- RBCCo <3")
                         ezgmail.send("brandon@dw-collective.com","Someone Cleaned the Sheets",f"Hey!\n {sender} told me to clean the sheet, so I did!\n\nLove, \n\n<3 RBCCo")
 
@@ -471,7 +486,7 @@ def rbcco():
                         digitz = re.compile(r'\d+')
                         code = digitz.search(subj)
                         mom = str(code.group())
-                        ShopifyPull.ShopPull(mom)
+                        ShopPull(mom)
                         ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3",attachments=f"static/output/{mom}.html")
                         ezgmail.send("brandon@dw-collective.com","Pulled an order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{mom}.html")
                         
@@ -481,17 +496,21 @@ def rbcco():
                         digitz = re.compile(r'\d+')
                         code = digitz.search(subj)
                         ordr = str(code.group())
-                        ShopifyPull.singlePrint(ordr)
+                        singlePrint(ordr)
                         ezgmail.send(sender,"Printed an order!",f"Hey!\n\nI started the pull for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
                         ezgmail.send("brandon@dw-collective.com",f"{sender} pulled order {ordr}",f"Hey!\n\nI started the pull for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
 
                     # Pull the shopify data by email! 
                     elif subj.lower() == "go to work":
-                        rdateSearch = re.compile(r'(\d\d/\d\d/\d\d)')
+                        rdateSearch = re.compile(r'(\d\d/\d\d/\d\d(\d\d)?)')
 
                         try:
                             rdate = rdateSearch.search(body)
                             rdate = rdate.group(0)
+
+                            if len(rdate) == 10:
+                                rdate = rdate[:-4]+rdate[-2:]
+                                
                             print(rdate)
                             
                             print("Creating full orders from drafts")
@@ -504,7 +523,7 @@ def rbcco():
 
                             if platform == "linux":
                                 from subprocess import call
-                                call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True)
+                                call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True) 
 
                             elif platform == "win32":
                                 ShopPull("Current_Orders")
@@ -581,6 +600,7 @@ def rbcco():
                     ezgmail.send("roasteryorders@stay-golden.com","Grocery Report",f"UwU I put some orders in the Grocery tab on the NEW sheet. \n\nPweeeze look at them and tell me I did good :3 \n\nSUMMARY\n\nOrders Posted: {posts}\n\nLove, \n- RBCCo <3")
 
                     print("\n Finished! \n\n")
+                    counter += 3
                     time.sleep(180)
                 
         except Exception as err:
@@ -589,6 +609,7 @@ def rbcco():
                 ezgmail.send("brandon@dw-collective.com","RoastingBot Error",f"There was an error. \n\n{str(err)}\n\nWill try again in the next five minutes.\n\nLove, \n- RBCCo <3")
             except:
                 print("\n\nI won't tell Brandon about the error...it's fine...")
+            counter += 5
             time.sleep(300)
 
 rbcco()
