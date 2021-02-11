@@ -65,6 +65,7 @@ def LabelPrinter(rdate):
     print(sg2lb)
     
     if len(sgOrds) > 0:
+        print('Working on SG 5lbs')
         os.chdir("labels/static/sg/5lb")
         for cof in sgOrds:
             num=1
@@ -85,6 +86,7 @@ def LabelPrinter(rdate):
                         num +=1
     
     if len(sg2lb) > 0:
+        print('Working on SG 2lbs')
         os.chdir("../2lb/")
         for cof in sg2lb:
             num=1
@@ -104,7 +106,8 @@ def LabelPrinter(rdate):
 
     os.chdir("../../../../")
     sglabes += endcap
-    with open("static/output/sgLabes.html","w") as f:
+    with open("static/output/sgLabes.html","w",encoding="utf-8") as f:
+        print('Writing the label file')
         f.write(sglabes)
 
 if __name__ == "__main__":
