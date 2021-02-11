@@ -107,7 +107,7 @@ def LabelPrinter(rdate):
     os.chdir("../../../../")
     sglabes += endcap
     print(sglabes)
-    with open("static/output/sgLabes.html","w", encoding='utf8', errors='ignore') as f:
+    with open("static/output/sgLabes.html","w", encoding='cp1252', errors='ignore') as f:
         print('\n\nWriting the label file')
         f.write(sglabes)
 
