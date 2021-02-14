@@ -71,7 +71,7 @@ def printer(allOrders, soup, ordr):
     soup = soup[0:breakremove]
     soup = soup + "</body>"
     print("writing file")
-    with open("static/output/"+ordr+".html", "w", encoding="utf-8") as f:
+    with open("static/output/"+ordr+".html", "w", encoding="cp437", errors='ignore') as f:
         f.write(soup)
     # print("opening")
     # webbrowser.open_new_tab("static/output/current_orders.html")
