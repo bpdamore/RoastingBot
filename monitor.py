@@ -6,6 +6,7 @@ def rbcco():
     from datetime import datetime
     from bs4 import BeautifulSoup as Soup
     from sys import platform
+    import pandas as pd
     from ShopifyPull import ShopPull,singlePrint
     import trade
     import LabelPrint
@@ -330,6 +331,36 @@ def rbcco():
             sheet.insert_row(x, g+2)
             g+=1
 
+    def binUpdate():
+        scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+        creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+        client = gspread.authorize(creds)
+
+        time.sleep(20)
+            
+        # Completely rewrite the sheet
+        # The WMS sheet will always reference the data on this sheet, so it's fine to overwrite it
+        sheet = client.open('BinData')
+        os.chdir('binData')
+        
+        read = 'yes'
+        for f in os.listdir():
+            if read == 'yes':
+                print(f)
+                df = pd.read_csv(f)
+                sortdf = df.sort_values(['Bin Number'])
+                sortdf.to_csv("../binData/outData.csv")
+                time.sleep(2)
+                os.remove(f)
+                read = 'no'
+            else: pass
+            
+        print("\nAdding to sheet")
+        with open("outData.csv", "r", encoding="UTF-8") as bins:
+            content = bins.read()
+            client.import_csv(sheet.id, data=content.encode("UTF-8"))
+        os.remove('outData.csv')
+
     monitor = "yes"
     while monitor == "yes":
         try:
@@ -567,7 +598,16 @@ def rbcco():
                         email.markAsRead()
                             
                     elif "New text message from 74005" in subj:
-                        print("\nEhhh I'll let my other process deal with this one")
+                        email.markAsRead()
+                        # print("\nEhhh I'll let my other process deal with this one")
+
+                    # Look for Bin data from netsuite and update it. 
+                    elif subj == "RB BIN DATA":
+                        print("Bin data! Woo!")
+                        email.messages[0].downloadAllAttachments(downloadFolder='binData')
+                        binUpdate()
+                        print('Bin update finished.')
+                        ezgmail.send('brandon@dw-collective.com','Bin Data Updated','Yoyoyoyoyo\nThe bin data was updated! It should have worked!\n\nLove, \n- RBCCo <3')
 
                     else:
                         print("\nFound an email, but it's not relevant")
