@@ -351,7 +351,7 @@ def rbcco():
                     expmsg = expediteMe()
                     if expmsg != 'nothing here':
                         print('\nHey! Looks like one was placed!')
-                        ezgmail.send('roasteryorders@stay-golden.com','An Expedited Order was Placed!', expmsg, cc=['chelsea@stay-golden.com','nora@stay-golden.com'])
+                        ezgmail.send('roasteryorders@stay-golden.com','An Expedited Order was Placed!', expmsg)
                         ezgmail.send('brandon@dw-collective.com','An Expedited Order was Placed!', expmsg)
                     else: print('\nLooks like there\'s nothing here.')
                 except Exception as err:
