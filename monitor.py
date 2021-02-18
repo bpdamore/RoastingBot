@@ -360,6 +360,7 @@ def rbcco():
             content = bins.read()
             client.import_csv(sheet.id, data=content.encode("UTF-8"))
         os.remove('outData.csv')
+        os.chdir('../')
 
     monitor = "yes"
     while monitor == "yes":
@@ -607,11 +608,13 @@ def rbcco():
                         email.messages[0].downloadAllAttachments(downloadFolder='binData')
                         binUpdate()
                         print('Bin update finished.')
+                        email.markAsRead()
                         ezgmail.send('brandon@dw-collective.com','Bin Data Updated','Yoyoyoyoyo\nThe bin data was updated! It should have worked!\n\nLove, \n- RBCCo <3')
 
                     else:
                         print("\nFound an email, but it's not relevant")
                         email.markAsRead()
+                        ezgmail.send('brandon@dw-collective.com','Found a random email',f'Hey!\n\nI found a random email, and I just marked it as read. The subject was {subj}. \n\nJust thought you should know!\n\nLove, \n\n<3 RBCCo')
                 
                 if len(summary) > 0:
                     noposts = ""

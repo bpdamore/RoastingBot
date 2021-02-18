@@ -21,6 +21,7 @@ def LabelPrinter(rdate):
     # Choose the sheet/worksheet that you will be working on
     # sheet = client.open("test").worksheet(ws)
     sheet = client.open('Roast Sheet 2.4.7')
+    # shopvals = sheet.values_get(range="labes!A4:F")['values']
     shopvals = sheet.values_get(range="Shopify!A4:F")['values']
 
     sgOrds = {}
@@ -112,4 +113,4 @@ def LabelPrinter(rdate):
         f.write(sglabes)
 
 if __name__ == "__main__":
-    LabelPrinter("11/16/20")
+    LabelPrinter("02/18/21")
