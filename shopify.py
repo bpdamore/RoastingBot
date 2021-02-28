@@ -16,8 +16,13 @@ def expediteMe():
     draftDate = datetime.today() - timedelta(days=14)
 
     # Load the ids of the orders that have already been checked
-    with open("shipcheck.json","r") as f:
-        processed = json.load(f)
+    # with open("shipcheck.json","r") as f:
+    #     processed = json.load(f)
+    scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('Roast Sheet 2.4.7')
+    processed = sheet.values_get(range="secret!A1:A")['values']
 
     query_url = f'https://{key}:{password}@{hostname}.myshopify.com/admin/api/{version}/'
     order_print = 'fields=name,shipping_lines,id'
@@ -38,7 +43,7 @@ def expediteMe():
         # Otherwise, process it and add the id to the processed list
         else: 
             print("Not yet processed! ")
-            processed.append(x['id'])
+            processed.append([str(x['id'])])
             # pprint(x['id'])
             try:
                 for y in x['shipping_lines']:
@@ -61,7 +66,7 @@ def expediteMe():
         # Otherwise, process it and add the id to the processed list
         else: 
             print("Not yet processed! ")
-            processed.append(x['id'])
+            processed.append([str(x['id'])])
             # pprint(x['id'])
             try:
                 if "Expedited" in x['shipping_line']['title']:
@@ -76,9 +81,10 @@ def expediteMe():
     else:
         msg = "nothing here"
 
-    # Load the new list of processed orders back into the file for later. 
-    with open("shipcheck.json", "w") as f:
-        json.dump(processed,f)
+    # # Load the new list of processed orders back into the file for later. 
+    # with open("shipcheck.json", "w") as f:
+    #     json.dump(processed,f)
+    sheet.values_update('secret!'+'A1',params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
     
     return msg
 

@@ -3,6 +3,8 @@ def printer(allOrders, soup, ordr):
     allOrders == shopOrds
     soup == soup
     """
+    from emoji import demojize
+
     logo ='</br><div class="logo col-sm-12 col-lg-12"><img style="margin-top: 20; align-items: center;" src="https://drive.google.com/uc?export=view&id=1arXMvyh7OvGt5d83rf6NosCviTa4oRF3"></div></br>'
     sg = '<div class="twins col-sm-6 col-lg-6"><h4>Stay Golden Coffee Co</h4><h5>2934 Sidco Dr STE #130 </h5><h5>Nashville, TN, 37204</h5></div></br>'
     thead = '<div class="col-sm-12 col-lg-12"><table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">Item</th><th scope="col">Quantity</th></tr></thead>'
@@ -70,6 +72,8 @@ def printer(allOrders, soup, ordr):
     breakremove = len(soup) - len(pbreak)
     soup = soup[0:breakremove]
     soup = soup + "</body>"
+    # Remove any emojis
+    soup = demojize(soup)
     print("writing file")
     with open("static/output/"+ordr+".html", "w", encoding="utf-8") as f:
         f.write(soup)
