@@ -7,7 +7,7 @@ def expediteMe():
 
     returns the body of the email.
     """
-    import os, time, requests, json
+    import os, time, requests, json, gspread
     from  oauth2client.service_account import ServiceAccountCredentials
     from config import key, password, hostname, version, emPass
     from pprint import pprint
@@ -84,7 +84,7 @@ def expediteMe():
     # # Load the new list of processed orders back into the file for later. 
     # with open("shipcheck.json", "w") as f:
     #     json.dump(processed,f)
-    sheet.values_update('secret!'+'A1',params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
+    sheet.values_update('secret!'+'A1',params={'valueInputOption':'USER_ENTERED'},body={'values':processed})
     
     return msg
 
