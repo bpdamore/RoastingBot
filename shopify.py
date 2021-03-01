@@ -220,7 +220,7 @@ if __name__ == "__main__":
         dblchk = input("\nAre you sure that you want to clear the sheet? \nType 'amsterdam' to continue clearing it. ")
         if dblchk.lower() == 'amsterdam':
             cleanShop()
-        else:break
+        else: ...
 
 
     
