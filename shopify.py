@@ -18,26 +18,32 @@ def expediteMe():
     # Load the ids of the orders that have already been checked
     # with open("shipcheck.json","r") as f:
     #     processed = json.load(f)
+
+    print("\nGrabbing data from secret sheet")
     scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
     client = gspread.authorize(creds)
     sheet = client.open('Roast Sheet 2.4.7')
     processed = sheet.values_get(range="secret!A1:A")['values']
+    print(f"\nGot it. \nLength of list is {len(processed)}")
 
+    print("\nGetting data from shopify")
     query_url = f'https://{key}:{password}@{hostname}.myshopify.com/admin/api/{version}/'
     order_print = 'fields=name,shipping_lines,id'
     # Save all open orders into response
     response = requests.get(f'{query_url}orders.json?status=open&{order_print}').json()
     response = response['orders']
+    print(f"Got it. \nLength of list is {len(response)}")
 
     # Now do it with drafts
     dresponse = requests.get(f"{query_url}draft_orders.json?updated_at_min={draftDate}&status=open").json()
     dresponse = dresponse["draft_orders"]
-    # Create an empty list of expedited orders
+    # Create an empty list of expedited orders\
+    
     expedited = []
     for x in response:
         # If the order has been process, skip
-        if x['id'] in processed:
+        if [str(x['id'])] in processed:
             print(f"Order {x['name']} has already been processed")
             pass
         # Otherwise, process it and add the id to the processed list
@@ -60,7 +66,7 @@ def expediteMe():
 
     for x in dresponse:
         # If the order has been process, skip
-        if x['id'] in processed:
+        if [str(x['id'])] in processed:
             print(f"Order {x['name']} has already been processed")
             pass
         # Otherwise, process it and add the id to the processed list
@@ -207,35 +213,14 @@ if __name__ == "__main__":
     choices = input('which script would you like to run? \n\na. expediteMe()\n\nb. cleanShop()\n\nplease enter a or b \n\n... ')
 
     if choices.lower() == 'a':
-        from datetime import datetime
-        import ezgmail
-        import time
+        msg = expediteMe()
+        print(f"\n\nThe msg output is...\n{msg}")
 
-        run = "yes"
-        minutes = ["15","30","45","00", "08"]
-
-        while run == "yes":
-            now = datetime.now()
-            hour = int(now.strftime("%H"))
-            minute = now.strftime("%M")
-
-            if hour < 8:
-                print("It's too early.")
-                pass
-            elif minute not in minutes:
-                print("...")
-                pass
-            else:
-                print("Let's go!")
-                msg = expediteMe()
-                if msg != "nothing here":
-                    ezgmail.send("brandon@dw-collective.com","Expedited Order Placed",msg)
-                else:
-                    print(msg)
-
-            time.sleep(60)
     elif choices.lower() == 'b':
-        cleanShop()
+        dblchk = input("\nAre you sure that you want to clear the sheet? \nType 'amsterdam' to continue clearing it. ")
+        if dblchk.lower() == 'amsterdam':
+            cleanShop()
+        else:break
 
 
     
