@@ -1,4 +1,4 @@
-def LabelPrinter(rdate):
+def LabelPrinter(rdate, shopvals):
 
     import os, time, webbrowser, requests, gspread
     from bs4 import BeautifulSoup as Soup
@@ -14,15 +14,18 @@ def LabelPrinter(rdate):
     # If there's another label, we need to put a page break in, but we don't want it if it's the end.
     pbreak = '<P style="page-break-before: always"></P>'
 
-    scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
-    client = gspread.authorize(creds)
+    #####TRYING SOMETHING
+    # scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+    # creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+    # client = gspread.authorize(creds)
 
-    # Choose the sheet/worksheet that you will be working on
-    # sheet = client.open("test").worksheet(ws)
-    sheet = client.open('Roast Sheet 2.4.7')
-    # shopvals = sheet.values_get(range="labes!A4:F")['values']
-    shopvals = sheet.values_get(range="Shopify!A4:F")['values']
+    # # Choose the sheet/worksheet that you will be working on
+    # # sheet = client.open("test").worksheet(ws)
+    # sheet = client.open('Roast Sheet 2.4.7')
+    # # shopvals = sheet.values_get(range="labes!A4:F")['values']
+    # shopvals = sheet.values_get(range="Shopify!A4:F")['values']
+    #################################
+
 
     sgOrds = {}
     rbOrds = {}

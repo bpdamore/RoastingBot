@@ -228,6 +228,7 @@ def ShopPull(mom):
     sheet.values_update('Shopify!'+rows,params={'valueInputOption':'USER_ENTERED'},body={'values':sheetData})
 
     printer(shopOrds, soup, mom)
+    return sheetData
 
 def singlePrint(ordr):
     """
