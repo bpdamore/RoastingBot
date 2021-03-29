@@ -518,7 +518,9 @@ def rbcco():
                         digitz = re.compile(r'\d+')
                         code = digitz.search(subj)
                         mom = str(code.group())
-                        ShopPull(mom)
+                        ## Can get labels created it wanted...just need rdate somehow.
+                        sheetdata = ShopPull(mom,"tag")
+                        # Just take the sheetdata and throw it into LabelPrint.LabelPrinter(rdate, sheetdata)
                         ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3",attachments=f"static/output/{mom}.html")
                         ezgmail.send("brandon@dw-collective.com","Pulled an order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{mom}.html")
                         
@@ -529,8 +531,8 @@ def rbcco():
                         code = digitz.search(subj)
                         ordr = str(code.group())
                         singlePrint(ordr)
-                        ezgmail.send(sender,"Printed an order!",f"Hey!\n\nI started the pull for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
-                        ezgmail.send("brandon@dw-collective.com",f"{sender} pulled order {ordr}",f"Hey!\n\nI started the pull for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
+                        ezgmail.send(sender,"Printed an order!",f"Hey!\n\nI started the print for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
+                        ezgmail.send("brandon@dw-collective.com",f"{sender} printed order {ordr}",f"Hey!\n\nI started the print for order {ordr}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{ordr}.html")
 
                     # Pull the shopify data by email! 
                     elif subj.lower() == "go to work":
@@ -556,7 +558,7 @@ def rbcco():
                                 call("python3 ~/Documents/RBCCo/ShopifyPull.py", shell=True) 
 
                             elif platform == "win32":
-                                sheetdata = ShopPull("Current_Orders")
+                                sheetdata = ShopPull("Current_Orders","ignore")
                             
                             time.sleep(20)
                             LabelPrint.LabelPrinter(rdate,sheetdata)
@@ -571,29 +573,45 @@ def rbcco():
                             ezgmail.send(sender,"Please Provide Date", "Hi there!\n In order for me to get the labels all formatted I'm going to need a date from you. Please send the email again, but with the date (XX/XX/XX) in the body of your email.\nIf the formatting isn't correct, I won't do it!\n\nLove, \n\n<3 RBCCo" )
                             email.markAsRead()
 
-                    # Add some skus by email! 
-                    elif subj.lower() == "add sku":
-                        skusearch = re.compile(r'(([a-z A-Z]+):([a-z A-Z]+))+')
-                        sku = skusearch.findall(body)
-                        ebod = "Hey! \n\nI added the following coffees to my database!\n\nThanks for teaching me!\n"
-                        with open("CoffeeSku.json","r") as f:
-                            skulist = json.load(f)
-                        try:
-                            for result in sku:
-                                print(f"Adding {result[1]} - {result[2].upper()} to json")
-                                ebod +=f"\n{result[1]} - {result[2]}"
-                                skulist[result[1]] = result[2].upper().strip()
-                            ezgmail.send(sender,"Skus added!", f"{ebod}\n\nLove, \n\n<3 RBCCo")
-                            ezgmail.send("brandon@dw-collective.com",f"{sender} Added Skus", f"{ebod}\n\nLove, \n\n<3 RBCCo")
-                        except:
-                            ezgmail.send(sender,"Plz Try Again", f"I couldn't read your email. Plz try again. \n\nPlz format your body like below\n\nEsperanza:CLE\nChin Up:CUB\nPalmera:CLP\n\nLove, \n\n<3 RBCCo")
-                            ezgmail.send("brandon@dw-collective.com",f"{sender} Failed at skus", f"lol what a dummy\n\nLove, \n\n<3 RBCCo")                            
+                    elif subj.lower() == "tag":
+                        # Subject : tag
+                        # Body : 01/01/20 [recurring_order]
+                        # Go from here to Shopify pull -> label print -> email
+                        rdateSearch = re.compile(r'(\d\d/\d\d/\d\d(\d\d)?)')
 
-                        email.markAsRead()
+                        try:
+                            rdate = rdateSearch.search(body)
+                            rdate = rdate.group(0)
+
+                            if len(rdate) == 10:
+                                rdate = rdate[:-4]+rdate[-2:]
+                                
+                            print(rdate)
+
+                    ###### NO LONGER NEEDED #######
+                    # # Add some skus by email! 
+                    # elif subj.lower() == "add sku":
+                    #     skusearch = re.compile(r'(([a-z A-Z]+):([a-z A-Z]+))+')
+                    #     sku = skusearch.findall(body)
+                    #     ebod = "Hey! \n\nI added the following coffees to my database!\n\nThanks for teaching me!\n"
+                    #     with open("CoffeeSku.json","r") as f:
+                    #         skulist = json.load(f)
+                    #     try:
+                    #         for result in sku:
+                    #             print(f"Adding {result[1]} - {result[2].upper()} to json")
+                    #             ebod +=f"\n{result[1]} - {result[2]}"
+                    #             skulist[result[1]] = result[2].upper().strip()
+                    #         ezgmail.send(sender,"Skus added!", f"{ebod}\n\nLove, \n\n<3 RBCCo")
+                    #         ezgmail.send("brandon@dw-collective.com",f"{sender} Added Skus", f"{ebod}\n\nLove, \n\n<3 RBCCo")
+                    #     except:
+                    #         ezgmail.send(sender,"Plz Try Again", f"I couldn't read your email. Plz try again. \n\nPlz format your body like below\n\nEsperanza:CLE\nChin Up:CUB\nPalmera:CLP\n\nLove, \n\n<3 RBCCo")
+                    #         ezgmail.send("brandon@dw-collective.com",f"{sender} Failed at skus", f"lol what a dummy\n\nLove, \n\n<3 RBCCo")                            
+
+                    #     email.markAsRead()
 
                     elif subj.lower() == "help":
                         print("Someone needs help!")
-                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. If there are any orders that you would like me to ignore, replace the 'y' in the queued column with 'plz'. :)\nPlease be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to your email. I will also create the SG labels for the day. Be sure to put the date (formatted like XX/XX/XX) you want on the labels in the body of the email, or else I won't do it! \n\nIf you want me to pull a single order from Shopify, make your subject 'SinglePull XXXX' where the Xs are your order number. \nI will send the html document with the order to your email.\n\nIf you want to print an order from the Shopify sheet on the google sheet, put your subject line as 'SinglePrint XXXX' where the X's are the order number (in the C column)\nI will send the html document with the order to your email.\n\nTo pull the Trade data, send me an email with the subject line 'SubbyWubby'. \nUnfortunately I can't send you the print files, but the orders will be in the sheet! \nI WILL however send you the csv with the orders in case you wanted to double check my work.\n\nIn order for me to process Trade, I need to have a memory of all our current skus and their names! So just send me an email with your subject line as 'Add Sku', and put the Coffee name shorthand and sku base in your body. \nex: \nEsperanza:CLE\nBuddy Buddy:BBS\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
+                        ezgmail.send(sender,"Table of Contents","Hey there! \n\nHere's a little that I can do.\n\nIf your subject line is 'Clean Your Room', I will completely reset the roast sheet. If there are any orders that you would like me to ignore, replace the 'y' in the queued column with 'plz'. :)\nPlease be careful with this one.\n\nIf your subject line is 'Go to work', I will pull all orders for the day and create the packing list that will be sent to your email. I will also create the SG labels for the day. Be sure to put the date (formatted like XX/XX/XX) you want on the labels in the body of the email, or else I won't do it! \n\nIf you want me to pull a single order from Shopify, make your subject 'SinglePull XXXX' where the Xs are your order number. \nI will send the html document with the order to your email.\n\nIf you want to print an order from the Shopify sheet on the google sheet, put your subject line as 'SinglePrint XXXX' where the X's are the order number (in the C column)\nI will send the html document with the order to your email.\n\nTo pull the Trade data, send me an email with the subject line 'SubbyWubby'. \nUnfortunately I can't send you the print files, but the orders will be in the sheet! \nI WILL however send you the csv with the orders in case you wanted to double check my work.\n\nContact Brandon if you have any issues! \n\nLove, \n- RBCCo <3")
                         email.markAsRead()
                             
                     elif "New text message from 74005" in subj:

@@ -14,8 +14,8 @@ def LabelPrinter(rdate, shopvals):
     # If there's another label, we need to put a page break in, but we don't want it if it's the end.
     pbreak = '<P style="page-break-before: always"></P>'
 
-    #####TRYING SOMETHING
-    # scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+    ##### TRYING SOMETHING ###########
+    #     # scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     # creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
     # client = gspread.authorize(creds)
 

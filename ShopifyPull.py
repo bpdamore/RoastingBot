@@ -132,7 +132,7 @@ def linePuller(x,shopOrds,z,sheetData,line):
     sheetData.append(brrr)
     line[name] = [sku,qty]
 
-def ShopPull(mom):
+def ShopPull(mom,tag):
     """
     mom == order number.
     If importing this function, it will only pull the order you choose.
@@ -158,6 +158,10 @@ def ShopPull(mom):
         response = requests.get(f'{query_url}orders.json?name={mom}&status=open&fulfillment_status=unfulfilled&{order_print}&limit=250').json()
         response = response['orders']
 
+    elif mom == "tag":
+        print(f"\nPulling all orders from Shopify with the tag {tag}")
+        response = requests.get(f'{query_url}orders.json?status=open&fulfillment_status=unfulfilled&{order_print}&limit=250&tag={tag}').json()
+        response = response['orders']
     else:
         print("\nPulling all orders from Shopify")
         response = requests.get(f'{query_url}orders.json?status=open&fulfillment_status=unfulfilled&{order_print}&limit=250').json()
@@ -317,6 +321,6 @@ def singlePrint(ordr):
     printer(shopOrds, soup, ordr)
 
 if __name__ == "__main__":  
-    ShopPull("Current_Orders")
+    ShopPull("Current_Orders","ignore")
     # singlePrint("4929")
 
