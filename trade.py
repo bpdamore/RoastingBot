@@ -72,7 +72,7 @@ def TradeScraper(sender):
                 if perc > 80:
                     match = 'yes'
                     coffee = f'{row["product_name"]}-{row["grind_type"]}'
-                    if row['size'] == '12oz':
+                    if row['size'] == "12 oz":
                         cSKU = sku[y]+"12OZ"+row["grind"]
                     elif row['size'] == "32 oz": 
                         cSKU = sku[y]+"2LB"+row["grind"]
