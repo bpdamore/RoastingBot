@@ -14,7 +14,7 @@ def TradeScraper(sender):
     os.chdir("../")
 
     # Get the necessary details out
-    trade_df = trade_df[["product_name","grind", "grind_type" ,"quantity"]]
+    trade_df = trade_df[["product_name","grind", "grind_type" ,"quantity", "size"]]
 
     # Get the skus from the sheet. 
     scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
@@ -72,7 +72,12 @@ def TradeScraper(sender):
                 if perc > 80:
                     match = 'yes'
                     coffee = f'{row["product_name"]}-{row["grind_type"]}'
-                    cSKU = sku[y]+"12OZ"+row["grind"]
+                    if row['size'] == '12oz':
+                        cSKU = sku[y]+"12OZ"+row["grind"]
+                    elif row['size'] == "32 oz": 
+                        cSKU = sku[y]+"2LB"+row["grind"]
+                    else:
+                        cSKU = sku[y]+"IDKLOL"+row["grind"]
                     if coffee in today:
                         # If coffee already exists in Today, then add to the qty (position 0 in the list)
                         today[coffee][0] += int(row["quantity"])
@@ -94,7 +99,6 @@ def TradeScraper(sender):
     # with open("CoffeeSku.json","r") as f:
     #     sku = json.load(f)
     # time.sleep(1)
-
     # today = {}
     # print("\n-----------------\nFormatting csv...")
     # for i,row in trade_df.iterrows():
@@ -122,7 +126,7 @@ def TradeScraper(sender):
     #             today[coffee][0] += int(row["quantity"])
     #         else:
     #             today[coffee] = [int(row["quantity"]), cSKU]
-   #####################################################################################
+    #####################################################################################
 
     time.sleep(5)
 

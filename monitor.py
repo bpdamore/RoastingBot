@@ -517,12 +517,13 @@ def rbcco():
                         email.markAsRead()
                         digitz = re.compile(r'\d+')
                         code = digitz.search(subj)
+                        ordr = str(code.group())
                         mom = str(code.group())
                         ## Can get labels created it wanted...just need rdate somehow.
                         sheetdata = ShopPull(mom,"tag")
                         # Just take the sheetdata and throw it into LabelPrint.LabelPrinter(rdate, sheetdata)
                         ezgmail.send(sender,f"Pulled order {mom}","I've pulled the order you wanted! \n\nLove, \n- RBCCo <3",attachments=f"static/output/{mom}.html")
-                        ezgmail.send("brandon@dw-collective.com","Pulled an order!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{mom}.html")
+                        ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled order {ordr}!",f"Hey!\n\nI started the pull for order {mom}! \n Hopefully it works! \n\nLove, \n\n<3 RBCCo",attachments=f"static/output/{mom}.html")
                         
                     elif "SinglePrint" in subj:
                         print("Creating printout!")
