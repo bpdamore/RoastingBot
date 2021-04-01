@@ -77,7 +77,7 @@ def LabelPrinter(rdate, shopvals):
             for f in os.listdir():
                 # print(f)|
                 if cof.lower() in f.lower():
-                    # print(f)
+                    print(f.lower())
                     with open(f,"r") as infile:
                         soup = Soup(infile,"html.parser")
                         soup = str(soup)
@@ -97,6 +97,7 @@ def LabelPrinter(rdate, shopvals):
             # print("\n")
             for f in os.listdir():
                 if cof.lower() in f.lower():
+                    print(f.lower())
                     with open(f,"r") as infile:
                         soup = Soup(infile,"html.parser")
                         soup = str(soup)
@@ -114,6 +115,7 @@ def LabelPrinter(rdate, shopvals):
     with open("static/output/sgLabes.html","w", encoding='cp437', errors='ignore') as f:
         print('\n\nWriting the label file')
         f.write(sglabes)
+        print("written! ")
 
 if __name__ == "__main__":
     LabelPrinter("02/18/21")

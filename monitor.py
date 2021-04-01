@@ -562,6 +562,7 @@ def rbcco():
                                 sheetdata = ShopPull("Current_Orders","ignore")
                             
                             time.sleep(20)
+                            print("Onto the labels")
                             LabelPrint.LabelPrinter(rdate,sheetdata)
                             time.sleep(5)
                             print('looks like it wrote everything. \nTime to email.')
