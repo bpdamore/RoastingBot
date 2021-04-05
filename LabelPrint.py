@@ -67,7 +67,7 @@ def LabelPrinter(rdate, shopvals):
 
     print(sgOrds)
     print(sg2lb)
-    
+
     if len(sgOrds) > 0:
         print('Working on SG 5lbs')
         os.chdir("labels/static/sg/5lb")
@@ -88,10 +88,11 @@ def LabelPrinter(rdate, shopvals):
                         sglabes+=pbreak
                         # print(num)
                         num +=1
+        os.chdir("../../../../")
     
     if len(sg2lb) > 0:
         print('Working on SG 2lbs')
-        os.chdir("../2lb/")
+        os.chdir('labels/static/sg/2lb')
         for cof in sg2lb:
             num=1
             # print("\n")
@@ -108,8 +109,9 @@ def LabelPrinter(rdate, shopvals):
                         sglabes+=pbreak
                         # print(num)
                         num +=1
+        os.chdir("../../../../")
 
-    os.chdir("../../../../")
+
     sglabes += endcap
     # print(sglabes)
     with open("static/output/sgLabes.html","w", encoding='cp437', errors='ignore') as f:
