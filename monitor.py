@@ -508,8 +508,12 @@ def rbcco():
                         print("Doing subs!")
                         email.markAsRead()
                         email.messages[0].downloadAllAttachments(downloadFolder='trade')
-                        trade.TradeScraper(sender)
                         ezgmail.send("brandon@dw-collective.com","Subs have been activated",f"Hey! \n{sender} told me to get the subs\n\nLove, \n\n<3 RBCCo")
+                        labes = trade.TradeScraper(sender)
+                        if labes:
+                            ezgmail.send(sender, "Subby 2lb Labes","Sup fam. Here are some labes! I hope it worked!\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
+                            ezgmail.send(sender, "Subby 2lb Labes","Sup fam. Here are some labes.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
+
 
                     elif "SinglePull" in subj:
                         print("Okay let's try to pull one order")

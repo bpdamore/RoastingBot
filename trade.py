@@ -83,13 +83,15 @@ def TradeScraper(sender):
                         # Match size and save as siz
                         if row['size'] == "12 oz":
                             siz = '12OZ'
+                            coffee = f'{row["product_name"]}-{row["grind_type"]}'
                         elif row['size'] == "32 oz": 
                             siz = '2LB'
+                            coffee = f'{row["product_name"]}-{row["grind_type"]}-{siz}'
                         else:
                             siz - 'idklol'
                         # Create sku with correct sku from dictionary, size, and grind
                         cSKU = sku[y]+siz+row["grind"]
-                        coffee = f'{row["product_name"]}-{row["grind_type"]}-{siz}'
+
                         if coffee in today:
                             # If coffee already exists in Today, then add to the qty (position 0 in the list)
                             today[coffee][0] += int(row["quantity"])
@@ -107,13 +109,12 @@ def TradeScraper(sender):
                     today[coffee] = [int(row["quantity"]), cSKU]
 
     time.sleep(5)
-
     # Get date and ID from the csv
     batchDate = str(trade_df['batch_date'][0][:10])
     y,m,d = batchDate.split('-')
     batchDate = f"{m}/{d}/{y[2:]}"
     batchID = str(trade_df['batch_id'][0])
-
+    
     rows = []
     twofers = []
     for x in today:
@@ -129,12 +130,12 @@ def TradeScraper(sender):
     # Email the person who called this function
     ezgmail.send(sender,"Subbys Are Posted!", "Hey!\nSorry I took a while...I'm done though!!\nI can't send you the print files, but the subs are good to go!\nsowwy :(\n\nLove, \n\n<3 RBCCo")
 
-        ################### UNCOMMENT WHEN LABES #######################
-    # if twofers:
-    #     LabelPrinter(batchDate, twofers)
-        # labes = True
-    #return labes
-    ################################################################
+    if twofers:
+        LabelPrinter(batchDate, twofers)
+        labes = True
+        
+    return labes
+
 
 if __name__ == "__main__":
     TradeScraper("brandon@dw-collective.com")

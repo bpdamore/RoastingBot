@@ -1,10 +1,64 @@
 /* COFFEE SPECIFIC CSS----------------------------- */
 
+
+
+#KOVOrigin {
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 26%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+
+}
+#LatinAmOrigin {
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 30%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+#SixOrigin {
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 29%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+
 #CUBOrigin {
     height: 48px;
     display: inline-block;
     overflow: hidden;
     margin-left: 18%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+#FSEOrigin {
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 14%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 17pt;
+}
+
+
+#NUEOrigin {
+    height: 48px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 17%;
     text-align: center;
     font-family: 'FuturaBook';
     font-size: 17pt;
@@ -60,6 +114,18 @@
 	font-size: 17pt;
 }
 
+#VVOrigin {
+    height: 46px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 11%;
+    text-align: center;
+    font-family: 'FuturaBook';
+    font-size: 16.1pt;
+}
+
+
+
 /* If you want the date a little lower, make the id this one */
 #LowerDate {
     text-align: center;
@@ -100,6 +166,15 @@
     line-height: 57.6px;
     height: 57.6px;
 }
+
+#coffeeNameLG {
+    text-align: center;
+    font-family: 'FuturaCondMed';
+    font-size: 50px;
+    line-height: 57.6px;
+    height: 57.6px;
+}
+
 #netWtLBS {
     text-align: center;
     float: left;
@@ -186,6 +261,7 @@
     font-family: 'FuturaBook';
     font-size: 17pt;
 }
+
 
 .spacer {			
     text-align: right;
