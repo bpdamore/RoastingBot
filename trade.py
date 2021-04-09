@@ -3,7 +3,7 @@ def TradeScraper(sender):
     returns bool if there were labels created
     """
     import os,time,time,re,ezgmail,json,gspread
-    from datetime import datetime, date
+    from datetime import datetime, date, timedelta
     import pandas as pd
     from  oauth2client.service_account import ServiceAccountCredentials
     from fuzzywuzzy import fuzz
@@ -110,9 +110,12 @@ def TradeScraper(sender):
 
     time.sleep(5)
     # Get date and ID from the csv
-    batchDate = str(trade_df['batch_date'][0][:10])
-    y,m,d = batchDate.split('-')
-    batchDate = f"{m}/{d}/{y[2:]}"
+    # First convert from string -> datetime, then add a day, and convert to string in the right format
+    batchDate = datetime.strptime(trade_df['batch_date'][0][:10],'%Y-%m-%d')
+    aDay = timedelta(days=1)
+    y,m,d = str(batchDate+aDay)[0:10].split('-')
+    batchDate = f"{m}/{d}/{y}"
+    
     batchID = str(trade_df['batch_id'][0])
     
     rows = []
@@ -128,7 +131,7 @@ def TradeScraper(sender):
     sheet.values_update('Subs!'+start,params={'valueInputOption':'USER_ENTERED'},body={'values':rows})
 
     # Email the person who called this function
-    ezgmail.send(sender,"Subbys Are Posted!", "Hey!\nSorry I took a while...I'm done though!!\nI can't send you the print files, but the subs are good to go!\nsowwy :(\n\nLove, \n\n<3 RBCCo")
+    ezgmail.send(sender,"Subbys Are Posted!", "Hey!\n\nSubs are good to go on the sheet fam\n\nLove, \n\n<3 RBCCo")
 
     if twofers:
         LabelPrinter(batchDate, twofers)

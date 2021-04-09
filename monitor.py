@@ -385,6 +385,8 @@ def rbcco():
                         print('\nHey! Looks like one was placed!')
                         ezgmail.send('roasteryorders@stay-golden.com','An Expedited Order was Placed!', expmsg)
                         ezgmail.send('brandon@dw-collective.com','An Expedited Order was Placed!', expmsg)
+                        ezgmail.send('chelsea@stay-golden.com','An Expedited Order was Placed!', expmsg)
+                        ezgmail.send('nora@stay-golden.com','An Expedited Order was Placed!', expmsg)
                     else: print('\nLooks like there\'s nothing here.')
                 except Exception as err:
                     print('Expedited script failed for some reason')
@@ -511,8 +513,9 @@ def rbcco():
                         ezgmail.send("brandon@dw-collective.com","Subs have been activated",f"Hey! \n{sender} told me to get the subs\n\nLove, \n\n<3 RBCCo")
                         labes = trade.TradeScraper(sender)
                         if labes:
-                            ezgmail.send(sender, "Subby 2lb Labes","Sup fam. Here are some labes! I hope it worked!\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
-                            ezgmail.send(sender, "Subby 2lb Labes","Sup fam. Here are some labes.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
+                            ezgmail.send("brandon@dw-collective.com", "Subby 2lb Labels","Sup fam. Here are some labes! I hope it worked!\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
+                            ezgmail.send("john@stay-golden.com", "Subby 2lb Labes","Sup fam. Here are some labes. I've also sent these to Cassandra. Don't worry I'm not saying 'Labes' with her. Just you, BooBoo :3\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
+                            ezgmail.send("cassandra@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
 
 
                     elif "SinglePull" in subj:
