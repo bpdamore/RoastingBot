@@ -44,20 +44,24 @@ def printer(allOrders, soup, ordr):
             tbody=f'{tbody}<tr><td scope="row"><strong>{count}</strong></td><td>{x}</td><td>{singleline[x][1]}</td></tr>'
             count+=1
         tbody = f'{tbody}</tbody></table></div>'
-        # print("puttin together")///
+        # print("puttin together")
         # Bring it all together
         soup = soup + logo + ordheader + ordinf + sg + thead + tbody
         if allOrders["notes"][ords] != "" and allOrders["notes"][ords] != None and allOrders["notes"][ords] != "None":
             if "\n" in allOrders["notes"][ords]:
                 allOrders["notes"][ords].replace("\n"," - ")
-            note = f'<p class=notes>{allOrders["notes"][ords]}</p>'
+            note = f'<!-- NOTES --><p class=notes>{allOrders["notes"][ords]}</p>'
             soup = soup + note
 
         if allOrders["emails"][ords] != ""and allOrders["notes"][ords] != None and allOrders["notes"][ords] != "None":
-            email = f'<p class=notes>{allOrders["emails"][ords]}</p>'
+            email = f'<!-- EMAIL --><p class=notes>{allOrders["emails"][ords]}</p>'
             soup = soup + email
-        
-        tags = '<p class=notes>'
+
+        if allOrders["shippings"][ords][7] != 'None':
+            soup += f'<!-- SHIPPING METHOD --><p class=notes>{allOrders["shippings"][ords][7]}</p>'
+        else: 
+            soup += f'<!-- SHIPPING METHOD WAS NONE-->'
+        tags = '<!-- TAGS --><p class=notes>'
 
         # if allOrders["custags"][ords] !="" and allOrders["custags"][ords] != "None" and allOrders["custags"][ords] != None:
         #     tags += f'{allOrders["custags"][ords]}, '
@@ -150,7 +154,7 @@ def ShopPull(mom,tag):
         soup = soup[:-13]
 
     query_url = f'https://{key}:{password}@{hostname}.myshopify.com/admin/api/{version}/'
-    order_print = 'fields=name,billing_address,shipping_address,contact_email,created_at,line_items,note,customer,tags'
+    order_print = 'fields=name,billing_address,shipping_address,shipping_lines,contact_email,created_at,line_items,note,customer,tags,id,financial_status,fulfillment_status,fulfillments'
     # Save all open orders into response
 
     if mom != 'Current_Orders':
@@ -208,6 +212,15 @@ def ShopPull(mom,tag):
         # Pull shipping info
         for x in shipinfo:
             shipPuller(x, order, shipping)
+        # Add the shipping method to the end of the list
+        try:
+            meth = order["shipping_lines"][0]["title"]
+            print(meth)  
+            if meth == None or meth =='':
+                meth = "None"
+        except:
+            meth = "None"
+        shipping.append(meth) 
         shopOrds["shippings"].append(shipping)
         # Pull line items 
         for lineitem in order["line_items"]:
@@ -230,7 +243,6 @@ def ShopPull(mom,tag):
     # print(sheetData)
     print("\nAdding data to Shopify page")
     sheet.values_update('Shopify!'+rows,params={'valueInputOption':'USER_ENTERED'},body={'values':sheetData})
-
     printer(shopOrds, soup, mom)
     return sheetData
 
@@ -240,7 +252,7 @@ def singlePrint(ordr):
     """
     import os, time, webbrowser, requests, gspread
     from bs4 import BeautifulSoup as Soup
-    from  oauth2client.service_account import ServiceAccountCredentials
+    from  oauth2client.service_account import ServiceAccountCredentials 
     from config import key, password, hostname, version, emPass
     from pprint import pprint
 
@@ -266,7 +278,7 @@ def singlePrint(ordr):
         soup = soup[:-13]
 
     query_url = f'https://{key}:{password}@{hostname}.myshopify.com/admin/api/{version}/'
-    order_print = 'fields=name,billing_address,shipping_address,contact_email,created_at,line_items,note,customer,tags'
+    order_print = 'fields=name,billing_address,shipping_address,shipping_lines,contact_email,created_at,line_items,note,customer,tags,id,financial_status,fulfillment_status,fulfillments'
     # Save all open orders into response
 
     response = requests.get(f'{query_url}orders.json?name={ordr}&status=open&fulfillment_status=unfulfilled&{order_print}').json()
@@ -310,6 +322,14 @@ def singlePrint(ordr):
         # Pull shipping info
         for x in shipinfo:
             shipPuller(x,order,shipping)
+        # Add shipping method to the bottom
+        try:
+            meth = order["shipping_lines"][0]["title"]
+            if meth == None or meth =='':
+                meth = "None"
+        except:
+            meth = "None"
+        shipping.append(meth)
         shopOrds["shippings"].append(shipping)
         # Format line items from gsheets
 
