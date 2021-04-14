@@ -47,17 +47,35 @@ def printer(allOrders, soup, ordr):
         # print("puttin together")
         # Bring it all together
         soup = soup + logo + ordheader + ordinf + sg + thead + tbody
-        if allOrders["notes"][ords] != "" and allOrders["notes"][ords] != None and allOrders["notes"][ords] != "None":
-            if "\n" in allOrders["notes"][ords]:
-                allOrders["notes"][ords].replace("\n"," - ")
-            note = f'<!-- NOTES --><p class=notes>{allOrders["notes"][ords]}</p>'
-            soup = soup + note
 
+        # NOTES
+        oNote = False
+        cNote = False
+        if allOrders["notes"][ords] != "" and allOrders["notes"][ords] != None and allOrders["notes"][ords] != "None":
+            oNote = allOrders["notes"][ords]
+            if "\n" in oNote:
+                oNote.replace("\n"," - ")
+
+        if allOrders["cusnotes"][ords] != "" and allOrders["cusnotes"][ords] != None and allOrders["cusnotes"][ords] != "None":
+            cNote = allOrders["cusnotes"][ords]
+            if "\n" in cNote:
+                cNote.replace("\n"," - ")
+
+        if oNote and cNote:
+            finalNote = f"{oNote} || {cNote}"
+        elif oNote and not cNote:
+            finalNote = oNote
+        elif cNote and not oNote:
+            finalNote = cNote
+        else: finalNote = ''
+        note = f'<!-- NOTES --><p class=notes>{finalNote}</p>'
+        soup = soup + note
+        
         if allOrders["emails"][ords] != ""and allOrders["notes"][ords] != None and allOrders["notes"][ords] != "None":
             email = f'<!-- EMAIL --><p class=notes>{allOrders["emails"][ords]}</p>'
             soup = soup + email
 
-        if allOrders["shippings"][ords][7] != 'None':
+        if allOrders["shippings"][ords][7] != 'None' :
             soup += f'<!-- SHIPPING METHOD --><p class=notes>{allOrders["shippings"][ords][7]}</p>'
         else: 
             soup += f'<!-- SHIPPING METHOD WAS NONE-->'
@@ -176,6 +194,7 @@ def ShopPull(mom,tag):
         "ordnums":[],
         "times":[],
         "notes":[],
+        "cusnotes":[],
         "custags":[],
         "ordtags":[],
         "shippings":[],
@@ -209,6 +228,15 @@ def ShopPull(mom,tag):
         puller("name","ordnums", order, shopOrds)
         puller("note","notes", order, shopOrds)
         puller("tags","ordtags", order, shopOrds)
+
+        try:
+            cusnote = order['customer']['note']
+            if cusnote == '' or cusnote == None:
+                cusnote = 'None'
+        except:
+            cusnote = 'None'
+        shopOrds['cusnotes'].append(cusnote)
+
         # Pull shipping info
         for x in shipinfo:
             shipPuller(x, order, shipping)
@@ -289,6 +317,7 @@ def singlePrint(ordr):
     "ordnums":[],
     "times":[],
     "notes":[],
+    "cusnotes":[],
     "custags":[],
     "ordtags":[],
     "shippings":[],
@@ -319,6 +348,15 @@ def singlePrint(ordr):
         puller("name","ordnums",order,shopOrds)
         puller("note","notes",order,shopOrds)
         puller("tags","ordtags",order,shopOrds)
+
+        try:
+            cusnote = order['customer']['note']
+            if cusnote == '' or cusnote == None:
+                cusnote = 'None'
+        except:
+            cusnote = 'None'
+        shopOrds['cusnotes'].append(cusnote)
+
         # Pull shipping info
         for x in shipinfo:
             shipPuller(x,order,shipping)
