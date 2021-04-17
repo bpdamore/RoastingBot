@@ -508,15 +508,19 @@ def rbcco():
 
                     elif subj.lower() == "subbywubby":
                         print("Doing subs!")
+                        if "priority" in body.lower():
+                            priority = True
+                        else:
+                            priority = False
+                        print("OH MAN A PRIORITY!!")
                         email.markAsRead()
                         email.messages[0].downloadAllAttachments(downloadFolder='trade')
                         ezgmail.send("brandon@dw-collective.com","Subs have been activated",f"Hey! \n{sender} told me to get the subs\n\nLove, \n\n<3 RBCCo")
-                        labes = trade.TradeScraper(sender)
+                        labes = trade.TradeScraper(sender,priority)
                         if labes:
                             ezgmail.send("brandon@dw-collective.com", "Subby 2Lb Labels", "Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
                             ezgmail.send("john@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
                             ezgmail.send("cassandra@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
-
 
                     elif "SinglePull" in subj:
                         print("Okay let's try to pull one order")

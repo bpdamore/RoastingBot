@@ -1,4 +1,4 @@
-def TradeScraper(sender):
+def TradeScraper(sender, priority):
     """
     returns bool if there were labels created
     """
@@ -121,7 +121,11 @@ def TradeScraper(sender):
     rows = []
     twofers = []
     for x in today:
-        rows.append(["y", today[x][1], f"BATCH - {batchID}", batchDate, x, int(today[x][0])])
+        if priority:
+            batchName = f"PRIORTY BATCH - {batchID}"
+        else:
+            batchName = f"BATCH - {batchID}"
+        rows.append(["y", today[x][1], batchName, batchDate, x, int(today[x][0])])
         if "2LB" in today[x][1]:
             twofers.append([today[x][1],'','','',int(today[x][0]), 'y'])
 
@@ -141,4 +145,4 @@ def TradeScraper(sender):
 
 
 if __name__ == "__main__":
-    TradeScraper("brandon@dw-collective.com")
+    TradeScraper("brandon@dw-collective.com", False)
