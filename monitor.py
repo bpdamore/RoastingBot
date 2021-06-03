@@ -518,9 +518,9 @@ def rbcco():
                         ezgmail.send("brandon@dw-collective.com","Subs have been activated",f"Hey! \n{sender} told me to get the subs\n\nLove, \n\n<3 RBCCo")
                         labes = trade.TradeScraper(sender,priority)
                         if labes:
-                            ezgmail.send("brandon@dw-collective.com", "Subby 2Lb Labels", "Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
-                            ezgmail.send("john@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
-                            ezgmail.send("cassandra@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabes.html"])
+                            ezgmail.send("brandon@dw-collective.com", "Subby 2Lb Labels", "Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabels.html"])
+                            ezgmail.send("john@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabels.html"])
+                            ezgmail.send("cassandra@stay-golden.com", "Subby 2lb Labels","Sup fam. Here are some 2lb Labels. Just download this and print it on out!\nIf you have any questions, just slack my piece of trash creator, Brandon.\n\nLove, \n\n<3 RBCCo",attachments=["static/output/sgLabels.html"])
 
                     elif "SinglePull" in subj:
                         print("Okay let's try to pull one order")
@@ -577,8 +577,8 @@ def rbcco():
                             LabelPrint.LabelPrinter(rdate,sheetdata)
                             time.sleep(5)
                             print('looks like it wrote everything. \nTime to email.')
-                            ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
-                            ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabes.html"])
+                            ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
+                            ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
                             email.markAsRead()
 
                         except AttributeError:

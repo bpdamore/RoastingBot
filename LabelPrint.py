@@ -114,7 +114,7 @@ def LabelPrinter(rdate, shopvals):
 
     sglabes += endcap
     # print(sglabes)
-    with open("static/output/sgLabes.html","w", encoding='cp437', errors='ignore') as f:
+    with open("static/output/sgLabels.html","w", encoding='cp437', errors='ignore') as f:
         print('\n\nWriting the label file')
         f.write(sglabes)
         print("written! ")
