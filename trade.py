@@ -12,6 +12,9 @@ def TradeScraper(sender, priority):
     # Create a variable that we will return at the end. If true, it will email the currentLabels file to sender. 
     labes = False
 
+    # Create an acceptable grindies list
+    grindies = ['whole', 'french-press', 'espresso']
+
     # Find the file and load into a df
     os.chdir("trade")
     for f in os.listdir():
@@ -71,6 +74,11 @@ def TradeScraper(sender, priority):
         if row['product_name'] == 'Cold Brew Bags':
             pass
         else:
+            # create grindy variable
+            if row['grind_type'] not in grindies:
+                grindy = 'automatic-drip'
+            else:
+                grindy = row['grind_type']
             # See if there is a match
             match = False
             for y in sku:
@@ -81,12 +89,15 @@ def TradeScraper(sender, priority):
                     if perc > 80:
                         match = True
                         # Match size and save as siz
-                        if row['size'] == "12 oz":
+                        if row['size'] == "11.464037633613634 oz":
                             siz = '12OZ'
-                            coffee = f'{row["product_name"]}-{row["grind_type"]}'
+                            coffee = f'{row["product_name"]}-{grindy}'
+                        elif row['size'] == "12 oz":
+                            siz = '12OZ'
+                            coffee = f'{row["product_name"]}-{grindy}'
                         elif row['size'] == "32 oz": 
                             siz = '2LB'
-                            coffee = f'{row["product_name"]}-{row["grind_type"]}-{siz}'
+                            coffee = f'{row["product_name"]}-{grindy}-{siz}'
                         else:
                             siz - 'idklol'
                         # Create sku with correct sku from dictionary, size, and grind
@@ -101,7 +112,7 @@ def TradeScraper(sender, priority):
                     else: pass
             
             if match == 'no':
-                coffee = f'{row["product_name"]}-{row["grind_type"]}'
+                coffee = f'{row["product_name"]}-{grindy}'
                 cSKU = "NEEDS SKU"
                 if coffee in today:
                     today[coffee][0] += int(row["quantity"])

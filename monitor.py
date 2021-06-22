@@ -574,11 +574,16 @@ def rbcco():
                             
                             time.sleep(20)
                             print("Onto the labels")
-                            LabelPrint.LabelPrinter(rdate,sheetdata)
+                            digest = LabelPrint.LabelPrinter(rdate,sheetdata)
                             time.sleep(5)
                             print('looks like it wrote everything. \nTime to email.')
-                            ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
-                            ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
+
+                            if digest:
+                                ezgmail.send(sender,"Pulled Today's Order",f"Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \nAlso, here is a White Label Digest for your reading pleasure. \n\n{digest}\n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
+                                ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order",f"Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \nAlso, here is a White Label Digest for your reading pleasure. \n\n{digest}\n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
+                            else:
+                                ezgmail.send(sender,"Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
+                                ezgmail.send("brandon@dw-collective.com",f"{sender} Pulled Today's Order","Hey!\n\nI started the shopify pull! \n Hopefully it works! \n\nHere's the printout of the orders, and the labels for the day! \n\nLove, \n\n<3 RBCCo",attachments=["static/output/Current_Orders.html","static/output/sgLabels.html"])
                             email.markAsRead()
 
                         except AttributeError:

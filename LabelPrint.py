@@ -33,10 +33,32 @@ def LabelPrinter(rdate, shopvals):
     sg2lb = {}
     rb2lb = {}
     tb2lb = {}
+    wLabel = {}
     sglabes = ""
 
     for row in shopvals:
         if row[5] == "y":
+
+            # Start getting white labels identified for the digest. 
+            sku = row[0]
+            cname = row[3]
+            qty = row[4]
+
+            # Weed out the skus that don't need a label
+            check = False
+            checkers = ['5 lb', '2 lb']
+            for x in checkers:
+                if x in cname:
+                    check = True
+                else: 
+                    pass 
+            # Only grab white labels 
+            if '-' in sku and check:
+                if cname not in wLabel:
+                    wLabel[cname] = qty
+                else:
+                    wLabel[cname] += qty
+
             if "5LB" in row[0]:
                 if "RB-" in row[0]:
                     if row[0][0:6] not in rbOrds:
@@ -118,6 +140,17 @@ def LabelPrinter(rdate, shopvals):
         print('\n\nWriting the label file')
         f.write(sglabes)
         print("written! ")
+
+    if len(wLabel) != 0:
+        digest = "Hey there! \nHere is your White Label Digest\n"
+
+        for x in sorted(wLabel):
+            digest+=(f"\n{wLabel[x]} -- {x}")
+        print(digest)
+    else:
+        digest = False
+
+    return digest
 
 if __name__ == "__main__":
     LabelPrinter("02/18/21")
