@@ -89,7 +89,7 @@ def TradeScraper(sender, priority):
                     if perc > 80:
                         match = True
                         # Match size and save as siz
-                        if row['size'] == "11.464037633613634 oz":
+                        if row['size'] == "11.464037633613634 oz" or row['size'] == "10.934928204369928 oz":
                             siz = '12OZ'
                             coffee = f'{row["product_name"]}-{grindy}'
                         elif row['size'] == "12 oz":
