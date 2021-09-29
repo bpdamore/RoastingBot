@@ -44,14 +44,15 @@ def LabelPrinter(rdate, shopvals):
             cname = row[3]
             qty = row[4]
 
+            # Weed out the skus that don't need a label
+            check = False
+
             # Only grab white labels 
-            if '-' in sku and check:
+            if '-' in sku:
                 if cname not in wLabel:
                     wLabel[cname] = qty
                 else:
                     wLabel[cname] += qty
-            # Weed out the skus that don't need a label
-            check = False
             checkers = ['5 lb', '2 lb']
             for x in checkers:
                 if x in cname:
