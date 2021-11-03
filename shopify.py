@@ -179,7 +179,7 @@ def cleanShop():
     [''],[''],[''],[''],[''],[''],[''],[''],['']]
 
     bagval2 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],['']]
-    bagval3 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],['']]
+    bagval3 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],['']]
     bagval4 = [[''],[''],[''],[''],[''],['']]
     bagval5 = [[''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
     [''],[''],[''],[''],[''],[''],[''],[''],[''],[''],\
@@ -203,7 +203,7 @@ def cleanShop():
     # bag report CV Grocery
     sheet.values_update('Bag Report!D267:D272',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval4})
     # bag report fracs 
-    sheet.values_update('Bag Report!D276:D287',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval3})
+    sheet.values_update('Bag Report!D276:D290',params={'valueInputOption':'USER_ENTERED'},body={'values':bagval3})
 
 
 
