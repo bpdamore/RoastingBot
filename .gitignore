@@ -1,21 +1,29 @@
-.config
+### Folders
+__pycache__/
+.ipynb_checkpoints/
+tester/
+report/
 
-creds.json
-
+### Py files
+netNetsuite.py
 config.py
 
+### Jupyter Notebooks
+re.ipynb
+ScratchSheet.ipynb
+ShopifyScratch.ipynb
+Trade.ipynb
+TurnipReader.ipynb
+
+### ETC
+static/output/*.html
 CurrentOrders.html
-
 credentials.json
-
 token.json
-
 PO 1003115373 Turnip Truck Natural Market (East) - RS2.pdf
-
-tester/
-
 readme.md
-
-__pycache__/
-
-.ipynb_checkpoints/
+debug.log
+chromedriver.exe
+geckodriver.log
+.config
+creds.json
